@@ -1,0 +1,7 @@
+{
+  "trailingSlash": true,
+  "rewrites": [
+    { "source": "/api/check-status/:id", "destination": "/api/check-status/[id]" },
+    { "source": "/api/:path*",           "destination": "/api/:path*" }
+  ]
+}
