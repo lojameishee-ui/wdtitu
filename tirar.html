@@ -124,14 +124,16 @@ body {
 .select-wrap select { padding-right: 40px; cursor: pointer; }
 
 /* Radio */
-.radio-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.radio-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .radio-label {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 10px;
   font-size: 15px; font-weight: 500; cursor: pointer;
+  color: var(--text);
 }
 .radio-label input[type="radio"] {
-  width: 20px; height: 20px; flex-shrink: 0;
+  width: 18px; height: 18px; flex-shrink: 0;
   accent-color: var(--green); cursor: pointer;
+  margin: 0;
 }
 
 /* Info box */
@@ -184,7 +186,29 @@ body {
 .btn-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
 .btn-row-2 .btn-green, .btn-row-2 .btn-gray { margin: 0; }
 
-/* ── CONFIRMAR DADOS ── */
+/* ── RESUMO (estilo antigo) ── */
+.resumo-box { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.resumo-product-header { background: var(--bg); padding: 13px 18px; font-size: 14px; font-weight: 700; color: var(--text); border-bottom: 1px solid var(--border); }
+.resumo-dados { padding: 16px 18px; display: flex; flex-direction: column; gap: 5px; }
+.resumo-dado { font-size: 13.5px; color: var(--text); line-height: 1.5; }
+.resumo-dado.dim { color: var(--muted); }
+.resumo-divider { height: 1px; background: var(--border); margin: 6px 0; }
+.resumo-pix-row { display: flex; align-items: center; gap: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+.resumo-pix-icon { width: 40px; height: 40px; flex-shrink: 0; background: #e0f5f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.resumo-pix-info strong { font-size: 14px; font-weight: 600; color: var(--text); }
+.resumo-pix-info p { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+.resumo-total { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 0 2px; }
+.resumo-total-label { font-size: 15px; font-weight: 500; color: var(--text); }
+.resumo-total-value { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+.resumo-terms { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+.resumo-term { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--muted); cursor: pointer; }
+.resumo-term input[type="checkbox"] { width: 17px; height: 17px; flex-shrink: 0; cursor: pointer; accent-color: var(--green); }
+.resumo-term a { color: var(--green); font-weight: 600; text-decoration: none; }
+.resumo-term a:hover { text-decoration: underline; }
+.btn-row-resumo { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; }
+.btn-outline { padding: 14px 20px; background: var(--white); color: var(--muted); border: 1.5px solid var(--border); border-radius: 8px; font-size: 15px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s; }
+.btn-outline:hover { background: var(--bg); }
+@media (max-width: 480px) { .btn-row-resumo { grid-template-columns: 1fr; } }
 .confirm-box {
   border: 1.5px solid var(--border); border-radius: 10px;
   padding: 20px 22px; margin-bottom: 16px;
@@ -287,11 +311,14 @@ footer {
 footer a { color: #a7f3d0; text-decoration: underline; }
 footer a:hover { color: var(--white); }
 
-@media (max-width: 600px) {
-  .card { padding: 28px 20px; border-radius: 0; }
-  .page-main { padding: 0 0 40px; }
+@media (max-width: 640px) {
+  .card { padding: 24px 18px; border-radius: 12px; }
+  .page-main { padding: 16px 12px 40px; }
   .btn-row-2 { grid-template-columns: 1fr; }
-  .card-title { font-size: 1.25rem; }
+  .card-title { font-size: 1.2rem; }
+  .card-subtitle { font-size: 13px; }
+  .navbar { padding: 0 1rem; }
+  .confirm-box { padding: 16px 14px; }
 }
 </style>
 </head>
@@ -484,33 +511,47 @@ footer a:hover { color: var(--white); }
     <button class="btn-gray" onclick="goToStep(3)">← Voltar</button>
   </div>
 
-  <!-- ── ETAPA 5: CONFIRMAÇÃO + AVISO PIX ── -->
+  <!-- ── ETAPA 5: CONFIRMAÇÃO + PIX ── -->
   <div class="step-panel" id="panel-5">
-    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Tirar Título</h1>
-    <p class="card-subtitle">Confirme seus Dados</p>
+    <h2 style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:20px;">Confirme seu pedido</h2>
 
-    <div class="confirm-box">
-      <h3>Dados Pessoais</h3>
-      <div class="confirm-row">Nome Completo: <strong id="conf-name"></strong></div>
-      <div class="confirm-row">CPF: <strong id="conf-cpf"></strong></div>
-      <div class="confirm-row">Nome da Mãe: <strong id="conf-mother"></strong></div>
-      <div class="confirm-row">Tipo de Via: <strong id="conf-via"></strong></div>
+    <div class="resumo-box">
+      <div class="resumo-product-header" id="conf-product-title"></div>
+      <div class="resumo-dados" id="conf-dados"></div>
     </div>
 
-    <div class="confirm-box">
-      <h3>Localização</h3>
-      <div class="confirm-row">Estado Natal: <strong id="conf-estado"></strong></div>
-      <div class="confirm-row">Cidade onde votará: <strong id="conf-cidade"></strong></div>
+    <div class="resumo-pix-row">
+      <div class="resumo-pix-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24" height="24"><path fill="#4db6ac" d="M11.9,12h-0.68l8.04-8.04c2.62-2.61,6.86-2.61,9.48,0L36.78,12H36.1c-1.6,0-3.11,0.62-4.24,1.76l-6.8,6.77c-0.59,0.59-1.53,0.59-2.12,0l-6.8-6.77C15.01,12.62,13.5,12,11.9,12z"/><path fill="#4db6ac" d="M36.1,36h0.68l-8.04,8.04c-2.62,2.61-6.86,2.61-9.48,0L11.22,36h0.68c1.6,0,3.11-0.62,4.24-1.76l6.8-6.77c0.59-0.59,1.53-0.59,2.12,0l6.8,6.77C32.99,35.38,34.5,36,36.1,36z"/><path fill="#4db6ac" d="M44.04,28.74L38.78,34H36.1c-1.07,0-2.07-0.42-2.83-1.17l-6.8-6.78c-1.36-1.36-3.58-1.36-4.94,0l-6.8,6.78C13.97,33.58,12.97,34,11.9,34H9.22l-5.26-5.26c-2.61-2.62-2.61-6.86,0-9.48L9.22,14h2.68c1.07,0,2.07,0.42,2.83,1.17l6.8,6.78c0.68,0.68,1.58,1.02,2.47,1.02s1.79-0.34,2.47-1.02l6.8-6.78C34.03,14.42,35.03,14,36.1,14h2.68l5.26,5.26C46.65,21.88,46.65,26.12,44.04,28.74z"/></svg>
+      </div>
+      <div class="resumo-pix-info">
+        <strong>Pagamento via PIX</strong>
+        <p>Você verá o QR Code ao finalizar</p>
+      </div>
     </div>
 
-    <div class="pix-warning">
-      <strong>⚠️ Pagamento via PIX</strong>
-      Após confirmar, você será direcionado ao pagamento. O guia digital será liberado imediatamente após a confirmação do PIX.
+    <div class="resumo-total">
+      <span class="resumo-total-label">Valor total</span>
+      <span class="resumo-total-value">R$ 37,91</span>
     </div>
 
-    <div class="btn-row-2">
-      <button class="btn-green" id="btn-5">→ Continuar</button>
-      <button class="btn-gray" onclick="goToStep(4)">← Voltar</button>
+    <div class="resumo-terms">
+      <label class="resumo-term">
+        <input type="checkbox" id="check-terms"> Li e aceito os <a href="/termos" target="_blank">Termos de Uso</a>
+      </label>
+      <label class="resumo-term">
+        <input type="checkbox" id="check-privacy"> Li e aceito a <a href="/privacidade" target="_blank">Política de Privacidade</a>
+      </label>
+    </div>
+
+    <div class="btn-row-resumo">
+      <button class="btn-outline" onclick="goToStep(4)">
+        ← Voltar
+      </button>
+      <button class="btn-green" id="btn-5" style="margin:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Gerar PIX
+      </button>
     </div>
   </div>
 
@@ -606,8 +647,8 @@ footer a:hover { color: var(--white); }
 
 <script>
 var API_PROXY_URL = '/api';
-var PRECO        = 'R$ 36,91';
-var AMOUNT       = 3691;
+var PRECO        = 'R$ 37,91';
+var AMOUNT       = 3791;
 
 var params       = new URLSearchParams(window.location.search);
 var guia         = (params.get('guia') || 'TIRAR').toUpperCase();
@@ -697,7 +738,7 @@ document.getElementById('btn-3').addEventListener('click', function() {
   if(ok) goToStep(4);
 });
 
-/* Step 4 */
+/* Step 4 — monta resumo e vai p/ etapa 5 */
 document.getElementById('btn-4').addEventListener('click', function() {
   clearErrors(); var ok=true;
   if(document.getElementById('cep').value.replace(/\D/g,'').length!==8){ setError('fg-cep'); ok=false; }
@@ -706,19 +747,49 @@ document.getElementById('btn-4').addEventListener('click', function() {
   if(document.getElementById('phone').value.replace(/\D/g,'').length<10){ setError('fg-phone'); ok=false; }
   if(!ok) return;
 
-  /* Monta confirmação */
-  var via = document.querySelector('input[name="via"]:checked');
-  document.getElementById('conf-name').textContent   = document.getElementById('name').value.trim().toUpperCase();
-  document.getElementById('conf-cpf').textContent    = document.getElementById('cpf').value.trim();
-  document.getElementById('conf-mother').textContent = document.getElementById('mother').value.trim().toUpperCase();
-  document.getElementById('conf-via').textContent    = via ? via.value : '';
-  document.getElementById('conf-estado').textContent = document.getElementById('estado').value;
-  document.getElementById('conf-cidade').textContent = document.getElementById('cidade').value.trim();
+  var via    = document.querySelector('input[name="via"]:checked');
+  var name   = document.getElementById('name').value.trim();
+  var cpf    = document.getElementById('cpf').value.trim();
+  var mother = document.getElementById('mother').value.trim();
+  var email  = document.getElementById('email').value.trim();
+  var phone  = document.getElementById('phone').value.trim();
+  var estado = document.getElementById('estado').value;
+  var cidade = document.getElementById('cidade').value.trim();
+  var street = document.getElementById('street').value.trim();
+  var number = document.getElementById('number').value.trim();
+  var complement   = document.getElementById('complement').value.trim();
+  var neighborhood = document.getElementById('neighborhood').value.trim();
+  var city = document.getElementById('city').value.trim();
+  var cep  = document.getElementById('cep').value.trim();
+
+  var viaLabel = via ? via.value : '';
+  var prodTitle = 'Tirar Título de Eleitor — ' + viaLabel;
+
+  document.getElementById('conf-product-title').textContent = prodTitle;
+
+  var endStr = street + (number ? ', ' + number : '') + (complement ? ' — ' + complement : '');
+  var cidStr = (neighborhood ? neighborhood + ' — ' : '') + city + (cep ? ' — CEP ' + cep : '');
+
+  var html = '<div class="resumo-dado">' + name + '</div>';
+  html += '<div class="resumo-dado dim">CPF: ' + cpf + '</div>';
+  html += '<div class="resumo-dado dim">Mãe: ' + mother + '</div>';
+  html += '<div class="resumo-dado dim">' + email + '</div>';
+  html += '<div class="resumo-dado dim">' + phone + '</div>';
+  html += '<div class="resumo-divider"></div>';
+  html += '<div class="resumo-dado dim">Estado natal: ' + estado + ' — Vota em: ' + cidade + '</div>';
+  if(endStr) html += '<div class="resumo-dado dim">' + endStr + '</div>';
+  if(cidStr) html += '<div class="resumo-dado dim">' + cidStr + '</div>';
+  document.getElementById('conf-dados').innerHTML = html;
+
   goToStep(5);
 });
 
 /* Step 5 — gera PIX */
 document.getElementById('btn-5').addEventListener('click', async function() {
+  if(!document.getElementById('check-terms').checked || !document.getElementById('check-privacy').checked){
+    alert('Por favor, aceite os Termos de Uso e a Política de Privacidade para continuar.');
+    return;
+  }
   var btn=this; btn.disabled=true;
   btn.innerHTML='<div class="spinner"></div> Processando...';
   try {
@@ -766,7 +837,7 @@ document.getElementById('btn-5').addEventListener('click', async function() {
     startPolling();
   } catch(err) {
     btn.disabled=false;
-    btn.innerHTML='→ Continuar';
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Gerar PIX';
     alert('Erro: '+err.message+'. Tente novamente.');
   }
 });
