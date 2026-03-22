@@ -15,8 +15,8 @@ export default async function handler(req, res) {
 
   // ── Catálogo de produtos (valor em centavos) ──────────────────
   const products = {
-    TIRAR:       { title: 'Título de Eleitor — Primeira Via',  amount: 3691 },
-    REGULARIZAR: { title: 'Título de Eleitor — Regularização', amount: 3691 },
+    TIRAR:       { title: 'Título de Eleitor — Primeira Via',  amount: 3684 },
+    REGULARIZAR: { title: 'Título de Eleitor — Regularização', amount: 3684 },
   };
   const prod = products[(guia || 'TIRAR').toUpperCase()] || products.TIRAR;
 
