@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solicitação — Título EdocBr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── Mapeia variáveis do style.css para o checkout ── */
+:root {
+  --green:      var(--primary-color);
+  --green-dark: var(--dark-color);
+  --green-light:var(--light-color);
+  --green-mid:  var(--secondary-color);
+  --white:      #ffffff;
+  --bg:         #f0f4f8;
+  --border:     #e2e8f0;
+  --text:       #1a202c;
+  --muted:      #4a5568;
+  --faint:      #718096;
+  --gray-btn:   #6b7280;
+  --gray-hover: #4b5563;
+  --red:        #c0392b;
+}
+
+body { color: var(--text); }
+
+/* ── NAVBAR do checkout ── */
+.navbar {
+  background: linear-gradient(135deg, var(--green), var(--green-mid));
+  padding: 0 2rem; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--white);
+  font-weight: 700; font-size: 1.1rem;
+}
+.nav-brand img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+.nav-back {
+  color: var(--white); font-size: 14px; font-weight: 500;
+  text-decoration: none; opacity: 0.9; transition: opacity 0.2s;
+}
+.nav-back:hover { opacity: 1; }
+
+/* ── MAIN e CARD ── */
+.page-main {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; padding: 40px 16px;
+}
+.card {
+  background: var(--white); border-radius: 12px;
+  width: 100%; max-width: 720px; padding: 40px 48px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+.card-title {
+  text-align: center; font-size: 1.55rem; font-weight: 700;
+  color: var(--green-dark); margin-bottom: 6px; line-height: 1.3;
+}
+.card-title u { text-decoration-color: var(--green); }
+.card-subtitle {
+  text-align: center; font-size: 14px; font-weight: 600;
+  color: var(--text); margin-bottom: 28px;
+}
+
+/* ── PANELS ── */
+.step-panel        { display: none; }
+.step-panel.active { display: block; }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block; font-size: 13.5px; font-weight: 600;
+  color: var(--text); margin-bottom: 8px;
+}
+.form-group input,
+.form-group select {
+  width: 100%; padding: 14px 16px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 15px; font-family: 'Inter', sans-serif;
+  color: var(--text); background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group select { appearance: none; }
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(2,125,108,0.12); outline: none;
+}
+.form-group.error input,
+.form-group.error select { border-color: var(--red); }
+.form-error { font-size: 12px; color: var(--red); margin-top: 5px; display: none; }
+.form-group.error .form-error { display: block; }
+.field-hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
+.select-wrap { position: relative; }
+.select-wrap::after {
+  content: '▾'; position: absolute; right: 16px; top: 50%;
+  transform: translateY(-50%); color: var(--faint);
+  pointer-events: none; font-size: 15px;
+}
+.select-wrap select { padding-right: 40px; cursor: pointer; }
+
+/* Radio */
+.radio-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.radio-label { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; cursor: pointer; color: var(--text); }
+.radio-label input[type="radio"] { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--green); cursor: pointer; margin: 0; appearance: auto; -webkit-appearance: radio; }
+
+/* Info box */
+.info-box { background: var(--green-light); border-left: 4px solid var(--green); border-radius: 0 8px 8px 0; padding: 16px 18px; margin-bottom: 20px; }
+.info-box strong { font-size: 14px; color: var(--green-dark); display: block; margin-bottom: 6px; }
+.info-box p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+
+/* Checkbox aceite */
+.check-label { display: flex; align-items: flex-start; gap: 12px; font-size: 13.5px; color: var(--muted); cursor: pointer; margin-bottom: 24px; line-height: 1.5; }
+.check-label input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: var(--green); cursor: pointer; }
+
+/* ── BOTÕES ── */
+.btn-green {
+  width: 100%; padding: 15px 20px;
+  background: var(--green); color: var(--white);
+  border: none; border-radius: 8px;
+  font-size: 15.5px; font-weight: 600; font-family: 'Inter', sans-serif;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 4px 12px rgba(2,125,108,0.25); margin-bottom: 12px;
+}
+.btn-green:hover    { background: var(--green-dark); transform: translateY(-1px); }
+.btn-green:active   { transform: scale(0.99); }
+.btn-green:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.btn-gray { width: 100%; padding: 15px 20px; background: var(--gray-btn); color: var(--white); border: none; border-radius: 8px; font-size: 15.5px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.2s; }
+.btn-gray:hover { background: var(--gray-hover); }
+.btn-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+.btn-row-2 .btn-green, .btn-row-2 .btn-gray { margin: 0; }
+
+/* ── RESUMO ── */
+.resumo-box { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.resumo-product-header { background: var(--bg); padding: 13px 18px; font-size: 14px; font-weight: 700; color: var(--text); border-bottom: 1px solid var(--border); }
+.resumo-dados { padding: 16px 18px; display: flex; flex-direction: column; gap: 5px; }
+.resumo-dado { font-size: 13.5px; color: var(--text); line-height: 1.5; }
+.resumo-dado.dim { color: var(--muted); }
+.resumo-divider { height: 1px; background: var(--border); margin: 6px 0; }
+.resumo-pix-row { display: flex; align-items: center; gap: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+.resumo-pix-icon { width: 40px; height: 40px; flex-shrink: 0; background: #e0f5f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.resumo-pix-info strong { font-size: 14px; font-weight: 600; color: var(--text); }
+.resumo-pix-info p { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+.resumo-total { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 0 2px; }
+.resumo-total-label { font-size: 15px; font-weight: 500; color: var(--text); }
+.resumo-total-value { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+.resumo-terms { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+.resumo-term { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--muted); cursor: pointer; }
+.resumo-term input[type="checkbox"] { width: 17px; height: 17px; flex-shrink: 0; cursor: pointer; accent-color: var(--green); }
+.resumo-term a { color: var(--green); font-weight: 600; text-decoration: none; }
+.resumo-term a:hover { text-decoration: underline; }
+.btn-row-resumo { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; }
+.btn-outline { padding: 14px 20px; background: var(--white); color: var(--muted); border: 1.5px solid var(--border); border-radius: 8px; font-size: 15px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s; }
+.btn-outline:hover { background: var(--bg); }
+
+/* ── PIX ── */
+.pix-header { text-align: center; margin-bottom: 24px; }
+.pix-header h2 { font-size: 1.3rem; font-weight: 700; color: var(--green-dark); margin-bottom: 6px; }
+.pix-header p  { font-size: 13px; color: var(--muted); }
+.pix-valor-box { background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+.pix-valor-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.pix-valor-label { font-size: 13px; color: var(--muted); }
+.pix-valor-amount { font-size: 24px; font-weight: 700; color: var(--green-dark); }
+.pix-timer-row { display: flex; align-items: center; gap: 8px; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 6px; padding: 8px 12px; font-size: 13px; font-weight: 500; color: #92400e; }
+.pix-timer-val { font-weight: 700; }
+.btn-copy-pix { width: 100%; padding: 17px 20px; background: var(--green); color: var(--white); border: none; border-radius: 8px; font-size: 16px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.2s; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(2,125,108,0.25); }
+.btn-copy-pix:hover { background: var(--green-dark); }
+.how-to { background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-bottom: 16px; }
+.how-to-title { font-size: 11px; font-weight: 700; color: var(--faint); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
+.how-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+.how-step:last-child { margin-bottom: 0; }
+.how-num { width: 22px; height: 22px; border-radius: 50%; background: var(--green); color: var(--white); font-size: 11px; font-weight: 700; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.how-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.pix-badges { display: inline-flex; align-items: center; gap: 4px; margin-top: 3px; }
+.pix-badge { background: var(--green); color: var(--white); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.pix-sep { color: var(--faint); font-size: 12px; }
+.qr-sep { text-align: center; font-size: 12px; color: var(--faint); margin: 14px 0; position: relative; }
+.qr-sep::before, .qr-sep::after { content: ''; display: inline-block; width: 30%; height: 1px; background: var(--border); vertical-align: middle; margin: 0 8px; }
+.qr-wrap { display: flex; justify-content: center; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+.qr-box { width: 180px; height: 180px; background: var(--white); border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.qr-box img { width: 100%; height: 100%; object-fit: contain; }
+.btn-verify { width: 100%; padding: 14px 20px; background: #2e7d32; color: var(--white); border: none; border-radius: 8px; font-size: 15px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s; margin-bottom: 10px; }
+.btn-verify:hover { background: #1b5e20; }
+.btn-verify:disabled { opacity: 0.6; cursor: not-allowed; }
+.pix-email { text-align: center; font-size: 12px; color: var(--faint); margin-bottom: 4px; }
+.pix-email strong { color: var(--green); }
+.pix-status { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: var(--green); font-weight: 500; margin-top: 10px; }
+
+/* ── SUCESSO ── */
+.success-wrap { text-align: center; padding: 20px 0; }
+.success-icon { width: 72px; height: 72px; border-radius: 50%; background: #e8f5e9; border: 2px solid #a5d6a7; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #2e7d32; }
+.success-icon svg { width: 36px; height: 36px; }
+.success-wrap h2 { font-size: 1.5rem; font-weight: 700; color: var(--green-dark); margin-bottom: 10px; }
+.success-wrap p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 420px; margin: 0 auto 28px; }
+.btn-open-guide { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; background: #2e7d32; color: var(--white); border-radius: 8px; font-size: 16px; font-weight: 700; text-decoration: none; font-family: 'Inter', sans-serif; box-shadow: 0 4px 12px rgba(46,125,50,0.3); transition: background 0.2s; }
+.btn-open-guide:hover { background: #1b5e20; }
+.success-note { font-size: 12px; color: var(--faint); margin-top: 14px; }
+
+/* ── SPINNER ── */
+.spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--white); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+.spinner-green { border-color: var(--border); border-top-color: var(--green); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── FOOTER do checkout ── */
+footer { background: var(--green-dark); color: #a7f3d0; text-align: center; padding: 28px 16px; font-size: 13px; }
+footer a { color: #a7f3d0; text-decoration: underline; }
+footer a:hover { color: var(--white); }
+
+@media (max-width: 640px) {
+  .card { padding: 24px 18px; border-radius: 12px; }
+  .page-main { padding: 16px 12px 40px; }
+  .btn-row-2 { grid-template-columns: 1fr; }
+  .btn-row-resumo { grid-template-columns: 1fr; }
+  .btn-row-resumo .btn-green   { order: -1; }
+  .btn-row-resumo .btn-outline { order: 1; }
+  .card-title { font-size: 1.2rem; }
+  .navbar { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="https://cdn-icons-png.flaticon.com/512/197/197386.png" alt="Brasil">
+    Título EdocBr
+  </a>
+  <a href="index.html" class="nav-back">Voltar ao Início</a>
+</header>
+
+<!-- MAIN -->
+<main class="page-main">
+<div class="card">
+
+  <!-- ── ETAPA 1: LOCALIZAÇÃO ── -->
+  <div class="step-panel active" id="panel-1">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Tirar Título</h1>
+    <p class="card-subtitle">Informações Iniciais</p>
+
+    <div class="form-group" id="fg-estado">
+      <label for="estado">Estado Natal *</label>
+      <div class="select-wrap">
+        <select id="estado">
+          <option value="">Selecione o estado</option>
+          <option value="AC">Acre (AC)</option>
+          <option value="AL">Alagoas (AL)</option>
+          <option value="AP">Amapá (AP)</option>
+          <option value="AM">Amazonas (AM)</option>
+          <option value="BA">Bahia (BA)</option>
+          <option value="CE">Ceará (CE)</option>
+          <option value="DF">Distrito Federal (DF)</option>
+          <option value="ES">Espírito Santo (ES)</option>
+          <option value="GO">Goiás (GO)</option>
+          <option value="MA">Maranhão (MA)</option>
+          <option value="MT">Mato Grosso (MT)</option>
+          <option value="MS">Mato Grosso do Sul (MS)</option>
+          <option value="MG">Minas Gerais (MG)</option>
+          <option value="PA">Pará (PA)</option>
+          <option value="PB">Paraíba (PB)</option>
+          <option value="PR">Paraná (PR)</option>
+          <option value="PE">Pernambuco (PE)</option>
+          <option value="PI">Piauí (PI)</option>
+          <option value="RJ">Rio de Janeiro (RJ)</option>
+          <option value="RN">Rio Grande do Norte (RN)</option>
+          <option value="RS">Rio Grande do Sul (RS)</option>
+          <option value="RO">Rondônia (RO)</option>
+          <option value="RR">Roraima (RR)</option>
+          <option value="SC">Santa Catarina (SC)</option>
+          <option value="SP">São Paulo (SP)</option>
+          <option value="SE">Sergipe (SE)</option>
+          <option value="TO">Tocantins (TO)</option>
+        </select>
+      </div>
+      <div class="form-error">Selecione o estado</div>
+    </div>
+
+    <div class="form-group" id="fg-cidade">
+      <label for="cidade">Cidade onde exercerá o voto *</label>
+      <input type="text" id="cidade" placeholder="Digite o nome da cidade">
+      <div class="form-error">Informe a cidade</div>
+      <p class="field-hint">Informe a cidade onde deseja exercer seu direito ao voto.</p>
+    </div>
+
+    <button class="btn-green" id="btn-1">
+      → Próximo
+    </button>
+  </div>
+
+  <!-- ── ETAPA 2: TIPO DE VIA + ACEITE ── -->
+  <div class="step-panel" id="panel-2">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Tirar Título</h1>
+    <p class="card-subtitle">Tipo de Documento</p>
+
+    <div class="form-group" id="fg-via">
+      <label>Selecione o tipo de via *</label>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="via" value="Primeira Via"> Primeira Via
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="via" value="Segunda Via"> Segunda Via
+        </label>
+      </div>
+      <div class="form-error" id="err-via">Selecione o tipo de via</div>
+    </div>
+
+    <div class="info-box">
+      <strong>Segurança dos seus dados</strong>
+      <p>Para continuar a análise, precisamos validar seus dados. O CPF é usado exclusivamente para consulta e não é armazenado.</p>
+    </div>
+
+    <label class="check-label" id="check-aceite-label">
+      <input type="checkbox" id="check-aceite">
+      Li e aceito os termos de uso. Entendo que meus dados serão utilizados apenas para validação e não serão armazenados.
+    </label>
+
+    <button class="btn-green" id="btn-2">
+      ✓ Entendi e aceito
+    </button>
+    <button class="btn-gray" onclick="goToStep(1)">
+      ← Voltar
+    </button>
+  </div>
+
+  <!-- ── ETAPA 3: DADOS PESSOAIS ── -->
+  <div class="step-panel" id="panel-3">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Tirar Título</h1>
+    <p class="card-subtitle">Dados Pessoais</p>
+
+    <div class="form-group" id="fg-name">
+      <label for="name">Nome Completo *</label>
+      <input type="text" id="name" placeholder="Digite seu nome completo">
+      <div class="form-error">Informe seu nome completo</div>
+    </div>
+
+    <div class="form-group" id="fg-cpf">
+      <label for="cpf">CPF *</label>
+      <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+      <div class="form-error">Informe um CPF válido</div>
+    </div>
+
+    <div class="form-group" id="fg-mother">
+      <label for="mother">Nome Completo da Mãe *</label>
+      <input type="text" id="mother" placeholder="Nome completo da mãe">
+      <div class="form-error">Informe o nome da mãe</div>
+    </div>
+
+    <p class="field-hint" style="margin-bottom:20px;">Seus dados são utilizados apenas para validação.</p>
+
+    <button class="btn-green" id="btn-3">→ Próximo</button>
+    <button class="btn-gray" onclick="goToStep(2)">← Voltar</button>
+  </div>
+
+  <!-- ── ETAPA 4: ENDEREÇO ── -->
+  <div class="step-panel" id="panel-4">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Tirar Título</h1>
+    <p class="card-subtitle">Endereço</p>
+
+    <div class="form-group" id="fg-cep">
+      <label for="cep">CEP *</label>
+      <input type="text" id="cep" placeholder="00000-000" maxlength="9" inputmode="numeric">
+      <div class="form-error">Informe um CEP válido</div>
+    </div>
+
+    <div class="form-group">
+      <label for="street">Logradouro</label>
+      <input type="text" id="street" placeholder="Rua, Avenida...">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group" id="fg-number">
+        <label for="number">Número *</label>
+        <input type="text" id="number" placeholder="123">
+        <div class="form-error">Informe o número</div>
+      </div>
+      <div class="form-group">
+        <label for="complement">Complemento</label>
+        <input type="text" id="complement" placeholder="Apto, bloco...">
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label for="neighborhood">Bairro</label>
+        <input type="text" id="neighborhood" placeholder="Bairro">
+      </div>
+      <div class="form-group">
+        <label for="city">Cidade / UF</label>
+        <input type="text" id="city" placeholder="São Paulo / SP">
+      </div>
+    </div>
+
+    <div class="form-group" id="fg-email">
+      <label for="email">E-mail *</label>
+      <input type="email" id="email" placeholder="seu@email.com">
+      <div class="form-error">Informe um e-mail válido</div>
+    </div>
+
+    <div class="form-group" id="fg-phone">
+      <label for="phone">Celular *</label>
+      <input type="tel" id="phone" placeholder="(11) 99999-9999">
+      <div class="form-error">Informe seu celular</div>
+    </div>
+
+    <button class="btn-green" id="btn-4">→ Próximo</button>
+    <button class="btn-gray" onclick="goToStep(3)">← Voltar</button>
+  </div>
+
+  <!-- ── ETAPA 5: CONFIRMAÇÃO + PIX ── -->
+  <div class="step-panel" id="panel-5">
+    <h2 style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:20px;">Confirme seu pedido</h2>
+
+    <div class="resumo-box">
+      <div class="resumo-product-header" id="conf-product-title"></div>
+      <div class="resumo-dados" id="conf-dados"></div>
+    </div>
+
+    <div class="resumo-pix-row">
+      <div class="resumo-pix-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24" height="24"><path fill="#4db6ac" d="M11.9,12h-0.68l8.04-8.04c2.62-2.61,6.86-2.61,9.48,0L36.78,12H36.1c-1.6,0-3.11,0.62-4.24,1.76l-6.8,6.77c-0.59,0.59-1.53,0.59-2.12,0l-6.8-6.77C15.01,12.62,13.5,12,11.9,12z"/><path fill="#4db6ac" d="M36.1,36h0.68l-8.04,8.04c-2.62,2.61-6.86,2.61-9.48,0L11.22,36h0.68c1.6,0,3.11-0.62,4.24-1.76l6.8-6.77c0.59-0.59,1.53-0.59,2.12,0l6.8,6.77C32.99,35.38,34.5,36,36.1,36z"/><path fill="#4db6ac" d="M44.04,28.74L38.78,34H36.1c-1.07,0-2.07-0.42-2.83-1.17l-6.8-6.78c-1.36-1.36-3.58-1.36-4.94,0l-6.8,6.78C13.97,33.58,12.97,34,11.9,34H9.22l-5.26-5.26c-2.61-2.62-2.61-6.86,0-9.48L9.22,14h2.68c1.07,0,2.07,0.42,2.83,1.17l6.8,6.78c0.68,0.68,1.58,1.02,2.47,1.02s1.79-0.34,2.47-1.02l6.8-6.78C34.03,14.42,35.03,14,36.1,14h2.68l5.26,5.26C46.65,21.88,46.65,26.12,44.04,28.74z"/></svg>
+      </div>
+      <div class="resumo-pix-info">
+        <strong>Pagamento via PIX</strong>
+        <p>Você verá o QR Code ao finalizar</p>
+      </div>
+    </div>
+
+    <div class="resumo-total">
+      <span class="resumo-total-label">Valor total</span>
+      <span class="resumo-total-value">R$ 36,84</span>
+    </div>
+
+    <div class="resumo-terms">
+      <label class="resumo-term">
+        <input type="checkbox" id="check-terms"> Li e aceito os <a href="/termos" target="_blank">Termos de Uso</a>
+      </label>
+      <label class="resumo-term">
+        <input type="checkbox" id="check-privacy"> Li e aceito a <a href="/privacidade" target="_blank">Política de Privacidade</a>
+      </label>
+    </div>
+
+    <div class="btn-row-resumo">
+      <button class="btn-outline" onclick="goToStep(4)">
+        ← Voltar
+      </button>
+      <button class="btn-green" id="btn-5" style="margin:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Gerar PIX
+      </button>
+    </div>
+  </div>
+
+  <!-- ── ETAPA 6: PIX ── -->
+  <div class="step-panel" id="panel-pix">
+    <div class="pix-header">
+      <h2>Pagamento via PIX</h2>
+      <p>Copie o código abaixo e cole no app do seu banco.<br>A confirmação é automática.</p>
+    </div>
+
+    <div class="pix-valor-box">
+      <div class="pix-valor-row">
+        <span class="pix-valor-label">Valor a pagar</span>
+        <span class="pix-valor-amount" id="pix-valor">R$ 37,91</span>
+      </div>
+      <div class="pix-timer-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Expira em <span class="pix-timer-val" id="pix-timer">05:00</span>
+      </div>
+    </div>
+
+    <button class="btn-copy-pix" id="btn-copy-pix">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copiar código PIX
+    </button>
+
+    <div class="how-to">
+      <div class="how-to-title">Como pagar</div>
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <div class="how-text">Abra o app do seu banco</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <div class="how-text">Vá em:
+          <div class="pix-badges">
+            <span class="pix-badge">PIX</span><span class="pix-sep">›</span>
+            <span class="pix-badge">Pagar</span><span class="pix-sep">›</span>
+            <span class="pix-badge">Copia e Cola</span>
+          </div>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <div class="how-text">Cole o código e confirme o pagamento</div>
+      </div>
+    </div>
+
+    <div class="qr-sep">Ou escaneie o QR Code com outro celular</div>
+    <div class="qr-wrap">
+      <div class="qr-box" id="pix-qr">
+        <div class="spinner spinner-green" style="width:24px;height:24px;border-width:3px;"></div>
+      </div>
+    </div>
+
+    <button class="btn-verify" id="btn-verify">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+      Já paguei, verificar
+    </button>
+    <div class="pix-email">Também enviamos o código para <strong id="pix-email-show"></strong></div>
+    <div class="pix-status" id="pix-status">
+      <div class="spinner spinner-green"></div>
+      Aguardando pagamento...
+    </div>
+  </div>
+
+  <!-- ── ETAPA 7: SUCESSO ── -->
+  <div class="step-panel" id="panel-success">
+    <div class="success-wrap">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Pagamento confirmado!</h2>
+      <p>Seu guia EdocBr está liberado. Clique no botão abaixo para acessar o material completo com o passo a passo para Tirar seu Título de Eleitor.</p>
+      <a id="btn-abrir-guia" href="#" target="_blank" rel="noopener" class="btn-open-guide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Abrir meu Guia Digital
+      </a>
+      <p class="success-note">O link também foi enviado para o seu e-mail.</p>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>EdocBr © 2026 - Todos os direitos reservados</p>
+  <p style="margin-top:8px;">
+    <a href="/termos">Termos de Uso</a> | <a href="/privacidade">Política de Privacidade</a>
+  </p>
+</footer>
+
+<script>
+var API_PROXY_URL = '/api';
+var PRECO        = 'R$ 36,84';
+var AMOUNT       = 3684;
+
+var params       = new URLSearchParams(window.location.search);
+var guia         = (params.get('guia') || 'TIRAR').toUpperCase();
+var currentStep  = 1;
+var saleId       = null;
+var pollInterval = null;
+var timerInterval= null;
+var pixCode      = '';
+
+/* ── Navegação ── */
+function goToStep(n) {
+  document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
+  var id = (n === 'pix') ? 'panel-pix' : (n === 'success') ? 'panel-success' : 'panel-' + n;
+  document.getElementById(id).classList.add('active');
+  currentStep = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── Máscaras ── */
+document.getElementById('cpf').addEventListener('input', function(e) {
+  var v=e.target.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>9) v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+  else if(v.length>6) v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+  else if(v.length>3) v=v.slice(0,3)+'.'+v.slice(3);
+  e.target.value=v;
+});
+document.getElementById('cep').addEventListener('input', function(e) {
+  var v=e.target.value.replace(/\D/g,'').slice(0,8);
+  if(v.length>5) v=v.slice(0,5)+'-'+v.slice(5);
+  e.target.value=v;
+});
+document.getElementById('phone').addEventListener('input', function(e) {
+  var v=e.target.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>6) v='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  else if(v.length>2) v='('+v.slice(0,2)+') '+v.slice(2);
+  e.target.value=v;
+});
+
+/* CEP → ViaCEP */
+document.getElementById('cep').addEventListener('blur', function() {
+  var cep=this.value.replace(/\D/g,''); if(cep.length!==8) return;
+  fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d.erro){
+        document.getElementById('street').value=d.logradouro||'';
+        document.getElementById('neighborhood').value=d.bairro||'';
+        document.getElementById('city').value=(d.localidade||'')+(d.uf?' / '+d.uf:'');
+        document.getElementById('number').focus();
+      }
+    }).catch(function(){});
+});
+
+/* ── Validação ── */
+function clearErrors(){ document.querySelectorAll('.form-group').forEach(function(fg){fg.classList.remove('error');}); }
+function setError(id){ document.getElementById(id).classList.add('error'); }
+
+/* Step 1 */
+document.getElementById('btn-1').addEventListener('click', function() {
+  clearErrors(); var ok=true;
+  if(!document.getElementById('estado').value){ setError('fg-estado'); ok=false; }
+  if(!document.getElementById('cidade').value.trim()){ setError('fg-cidade'); ok=false; }
+  if(ok) goToStep(2);
+});
+
+/* Step 2 */
+document.getElementById('btn-2').addEventListener('click', function() {
+  clearErrors(); var ok=true;
+  var via = document.querySelector('input[name="via"]:checked');
+  if(!via){ document.getElementById('err-via').style.display='block'; ok=false; }
+  else { document.getElementById('err-via').style.display='none'; }
+  if(!document.getElementById('check-aceite').checked){
+    document.getElementById('check-aceite-label').style.color='#c0392b';
+    ok=false;
+  } else {
+    document.getElementById('check-aceite-label').style.color='';
+  }
+  if(ok) goToStep(3);
+});
+
+/* Step 3 */
+document.getElementById('btn-3').addEventListener('click', function() {
+  clearErrors(); var ok=true;
+  if(document.getElementById('name').value.trim().length<3){ setError('fg-name'); ok=false; }
+  if(document.getElementById('cpf').value.replace(/\D/g,'').length!==11){ setError('fg-cpf'); ok=false; }
+  if(document.getElementById('mother').value.trim().length<3){ setError('fg-mother'); ok=false; }
+  if(ok) goToStep(4);
+});
+
+/* Step 4 — monta resumo e vai p/ etapa 5 */
+document.getElementById('btn-4').addEventListener('click', function() {
+  clearErrors(); var ok=true;
+  if(document.getElementById('cep').value.replace(/\D/g,'').length!==8){ setError('fg-cep'); ok=false; }
+  if(!document.getElementById('number').value.trim()){ setError('fg-number'); ok=false; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value.trim())){ setError('fg-email'); ok=false; }
+  if(document.getElementById('phone').value.replace(/\D/g,'').length<10){ setError('fg-phone'); ok=false; }
+  if(!ok) return;
+
+  var via    = document.querySelector('input[name="via"]:checked');
+  var name   = document.getElementById('name').value.trim();
+  var cpf    = document.getElementById('cpf').value.trim();
+  var mother = document.getElementById('mother').value.trim();
+  var email  = document.getElementById('email').value.trim();
+  var phone  = document.getElementById('phone').value.trim();
+  var estado = document.getElementById('estado').value;
+  var cidade = document.getElementById('cidade').value.trim();
+  var street = document.getElementById('street').value.trim();
+  var number = document.getElementById('number').value.trim();
+  var complement   = document.getElementById('complement').value.trim();
+  var neighborhood = document.getElementById('neighborhood').value.trim();
+  var city = document.getElementById('city').value.trim();
+  var cep  = document.getElementById('cep').value.trim();
+
+  var viaLabel = via ? via.value : '';
+  var prodTitle = 'Tirar Título de Eleitor — ' + viaLabel;
+
+  document.getElementById('conf-product-title').textContent = prodTitle;
+
+  var endStr = street + (number ? ', ' + number : '') + (complement ? ' — ' + complement : '');
+  var cidStr = (neighborhood ? neighborhood + ' — ' : '') + city + (cep ? ' — CEP ' + cep : '');
+
+  var html = '<div class="resumo-dado">' + name + '</div>';
+  html += '<div class="resumo-dado dim">CPF: ' + cpf + '</div>';
+  html += '<div class="resumo-dado dim">Mãe: ' + mother + '</div>';
+  html += '<div class="resumo-dado dim">' + email + '</div>';
+  html += '<div class="resumo-dado dim">' + phone + '</div>';
+  html += '<div class="resumo-divider"></div>';
+  html += '<div class="resumo-dado dim">Estado natal: ' + estado + ' — Vota em: ' + cidade + '</div>';
+  if(endStr) html += '<div class="resumo-dado dim">' + endStr + '</div>';
+  if(cidStr) html += '<div class="resumo-dado dim">' + cidStr + '</div>';
+  document.getElementById('conf-dados').innerHTML = html;
+
+  goToStep(5);
+});
+
+/* Step 5 — gera PIX */
+document.getElementById('btn-5').addEventListener('click', async function() {
+  if(!document.getElementById('check-terms').checked || !document.getElementById('check-privacy').checked){
+    alert('Por favor, aceite os Termos de Uso e a Política de Privacidade para continuar.');
+    return;
+  }
+  var btn=this; btn.disabled=true;
+  btn.innerHTML='<div class="spinner"></div> Processando...';
+  try {
+    var via = document.querySelector('input[name="via"]:checked');
+    var response = await fetch(API_PROXY_URL+'/create-pix', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        guia: guia,
+        customer:{
+          name:     document.getElementById('name').value.trim(),
+          email:    document.getElementById('email').value.trim(),
+          phone:    document.getElementById('phone').value.replace(/\D/g,''),
+          cpf:      document.getElementById('cpf').value.replace(/\D/g,''),
+          mother:   document.getElementById('mother').value.trim(),
+          birthdate:''
+        },
+        address:{
+          cep:          document.getElementById('cep').value.replace(/\D/g,''),
+          street:       document.getElementById('street').value.trim(),
+          number:       document.getElementById('number').value.trim(),
+          complement:   document.getElementById('complement').value.trim(),
+          neighborhood: document.getElementById('neighborhood').value.trim(),
+          city:         document.getElementById('city').value.trim()
+        },
+        utm:{
+          utmSource:   params.get('utm_source')||'',
+          utmMedium:   params.get('utm_medium')||'',
+          utmCampaign: params.get('utm_campaign')||'',
+          src: params.get('src')||'',
+          sck: params.get('sck')||''
+        }
+      })
+    });
+    var data = await response.json();
+    if(!response.ok||!data.pix) throw new Error(data.message||'Erro ao gerar PIX');
+    saleId  = data.saleId;
+    pixCode = data.pix.key||'';
+    if(data.pix.qrCodeBase64)
+      document.getElementById('pix-qr').innerHTML='<img src="'+data.pix.qrCodeBase64+'" alt="QR Code">';
+    document.getElementById('pix-email-show').textContent = document.getElementById('email').value.trim();
+    document.getElementById('pix-valor').textContent = PRECO;
+    goToStep('pix');
+    startTimer(5*60);
+    startPolling();
+  } catch(err) {
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Gerar PIX';
+    alert('Erro: '+err.message+'. Tente novamente.');
+  }
+});
+
+/* Copiar PIX */
+document.getElementById('btn-copy-pix').addEventListener('click', function() {
+  if(!pixCode) return;
+  var btn=this;
+  if(navigator.clipboard) navigator.clipboard.writeText(pixCode);
+  else { var ta=document.createElement('textarea');ta.value=pixCode;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta); }
+  btn.innerHTML='✓ Copiado!';
+  btn.style.background='#2e7d32';
+  setTimeout(function(){
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar código PIX';
+    btn.style.background='';
+  },2500);
+});
+
+/* Verificar manual */
+document.getElementById('btn-verify').addEventListener('click', async function() {
+  if(!saleId) return;
+  var btn=this; btn.disabled=true;
+  btn.innerHTML='<div class="spinner"></div> Verificando...';
+  try {
+    var data=await(await fetch(API_PROXY_URL+'/check-status/'+saleId)).json();
+    if(data.status==='PAGO'){ handleSuccess(); return; }
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Já paguei, verificar';
+    var st=document.getElementById('pix-status');
+    st.innerHTML='<span style="color:#c0392b">Pagamento ainda não identificado. Aguarde.</span>';
+    setTimeout(function(){st.innerHTML='<div class="spinner spinner-green"></div> Aguardando pagamento...';},4000);
+  } catch(e){
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Já paguei, verificar';
+  }
+});
+
+/* Polling */
+function startPolling() {
+  if(!saleId) return;
+  pollInterval=setInterval(async function(){
+    try{
+      var data=await(await fetch(API_PROXY_URL+'/check-status/'+saleId)).json();
+      if(data.status==='PAGO'){ clearInterval(pollInterval); clearInterval(timerInterval); handleSuccess(); }
+      else if(['CANCELADO','RECUSADO','FALHA'].includes(data.status)){
+        clearInterval(pollInterval);
+        document.getElementById('pix-status').innerHTML='Pagamento não realizado. <a href="javascript:location.reload()" style="color:var(--green);font-weight:500">Tentar novamente</a>';
+      }
+    }catch(e){}
+  },5000);
+}
+
+/* Sucesso */
+function handleSuccess() {
+  clearInterval(pollInterval); clearInterval(timerInterval);
+  document.getElementById('btn-abrir-guia').href='/guia-titulo.pdf';
+  goToStep('success');
+}
+
+/* Timer */
+function startTimer(seconds) {
+  var remaining=seconds;
+  timerInterval=setInterval(function(){
+    remaining--;
+    if(remaining<=0){
+      clearInterval(timerInterval);
+      document.getElementById('pix-timer').textContent='00:00';
+      return;
+    }
+    var m=Math.floor(remaining/60),s=remaining%60;
+    document.getElementById('pix-timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  },1000);
+}
+</script>
+</body>
+</html>
