@@ -92,7 +92,7 @@ export default async function handler(req, res) {
 
   // ── Chama PagBank ─────────────────────────────────────────────
   try {
-    const pbRes = await fetch('https://api.pagseguro.com/orders', {
+    const pbRes = await fetch('https://sandbox.api.pagseguro.com/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
