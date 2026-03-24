@@ -696,7 +696,7 @@ document.getElementById('btn-5').addEventListener('click', async function() {
   btn.innerHTML='<div class="spinner"></div> Processando...';
   try {
     var via = document.querySelector('input[name="via"]:checked');
-    var response = await fetch(API_PROXY_URL+'/create-pix', {
+    var response = await fetch(API_PROXY_URL+'/pagbank-create-pix', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
