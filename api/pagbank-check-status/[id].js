@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const pbRes = await fetch(`https://api.pagseguro.com/orders/${encodeURIComponent(id)}`, {
+    const pbRes = await fetch(`https://sandbox.api.pagseguro.com/orders/${id}`, {
       headers: {
         'Authorization': `Bearer ${process.env.PAGBANK_TOKEN}`,
       },
