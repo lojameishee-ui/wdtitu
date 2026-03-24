@@ -32,7 +32,10 @@ export default async function handler(req, res) {
   const phoneNum  = rawPhone.slice(2);
 
   // ── Expiration: 30 minutos a partir de agora ──────────────────
-  const expiration = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+  const exp = new Date(Date.now() + 30 * 60 * 1000);
+const pad = n => String(n).padStart(2,'0');
+const local = new Date(exp.getTime() - 3*60*60*1000);
+const expiration = `${local.getUTCFullYear()}-${pad(local.getUTCMonth()+1)}-${pad(local.getUTCDate())}T${pad(local.getUTCHours())}:${pad(local.getUTCMinutes())}:${pad(local.getUTCSeconds())}-03:00`;
 
   // ── Monta shipping apenas se tiver CEP e estado válido ────────
   const hasShipping = address?.cep && stateUF.length === 2;
