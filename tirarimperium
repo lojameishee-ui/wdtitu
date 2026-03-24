@@ -730,8 +730,8 @@ document.getElementById('btn-5').addEventListener('click', async function() {
     if(!response.ok||!data.pix) throw new Error(data.message||'Erro ao gerar PIX');
     saleId  = data.saleId;
     pixCode = data.pix.key||'';
-    if(data.pix.qrCodeBase64)
-      document.getElementById('pix-qr').innerHTML='<img src="'+data.pix.qrCodeBase64+'" alt="QR Code">';
+    if(data.pix.qrCodeUrl)
+      document.getElementById('pix-qr').innerHTML='<img src="'+data.pix.qrCodeUrl+'" alt="QR Code">';
     document.getElementById('pix-email-show').textContent = document.getElementById('email').value.trim();
     document.getElementById('pix-valor').textContent = PRECO;
     goToStep('pix');
