@@ -467,7 +467,7 @@ footer a:hover { color: var(--white); }
     <div class="pix-valor-box">
       <div class="pix-valor-row">
         <span class="pix-valor-label">Valor a pagar</span>
-        <span class="pix-valor-amount" id="pix-valor">R$ 36,84</span>
+        <span class="pix-valor-amount" id="pix-valor">R$ 37,91</span>
       </div>
       <div class="pix-timer-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -686,7 +686,7 @@ document.getElementById('btn-4').addEventListener('click', function() {
   goToStep(5);
 });
 
-/* Step 5 — gera PIX via PagBank */
+/* Step 5 — gera PIX */
 document.getElementById('btn-5').addEventListener('click', async function() {
   if(!document.getElementById('check-terms').checked || !document.getElementById('check-privacy').checked){
     alert('Por favor, aceite os Termos de Uso e a Política de Privacidade para continuar.');
@@ -696,7 +696,7 @@ document.getElementById('btn-5').addEventListener('click', async function() {
   btn.innerHTML='<div class="spinner"></div> Processando...';
   try {
     var via = document.querySelector('input[name="via"]:checked');
-    var response = await fetch(API_PROXY_URL+'/pagbank-create-pix', {  // ← MUDANÇA 1
+    var response = await fetch(API_PROXY_URL+'/create-pix', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -730,8 +730,8 @@ document.getElementById('btn-5').addEventListener('click', async function() {
     if(!response.ok||!data.pix) throw new Error(data.message||'Erro ao gerar PIX');
     saleId  = data.saleId;
     pixCode = data.pix.key||'';
-    if(data.pix.qrCodeUrl)  // ← MUDANÇA 2: era qrCodeBase64, agora é qrCodeUrl
-      document.getElementById('pix-qr').innerHTML='<img src="'+data.pix.qrCodeUrl+'" alt="QR Code">';
+    if(data.pix.qrCodeBase64)
+      document.getElementById('pix-qr').innerHTML='<img src="'+data.pix.qrCodeBase64+'" alt="QR Code">';
     document.getElementById('pix-email-show').textContent = document.getElementById('email').value.trim();
     document.getElementById('pix-valor').textContent = PRECO;
     goToStep('pix');
@@ -764,7 +764,7 @@ document.getElementById('btn-verify').addEventListener('click', async function()
   var btn=this; btn.disabled=true;
   btn.innerHTML='<div class="spinner"></div> Verificando...';
   try {
-    var data=await(await fetch(API_PROXY_URL+'/pagbank-check-status/'+saleId)).json();  // ← MUDANÇA 3a
+    var data=await(await fetch(API_PROXY_URL+'/check-status/'+saleId)).json();
     if(data.status==='PAGO'){ handleSuccess(); return; }
     btn.disabled=false;
     btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Já paguei, verificar';
@@ -782,7 +782,7 @@ function startPolling() {
   if(!saleId) return;
   pollInterval=setInterval(async function(){
     try{
-      var data=await(await fetch(API_PROXY_URL+'/pagbank-check-status/'+saleId)).json();  // ← MUDANÇA 3b
+      var data=await(await fetch(API_PROXY_URL+'/check-status/'+saleId)).json();
       if(data.status==='PAGO'){ clearInterval(pollInterval); clearInterval(timerInterval); handleSuccess(); }
       else if(['CANCELADO','RECUSADO','FALHA'].includes(data.status)){
         clearInterval(pollInterval);
