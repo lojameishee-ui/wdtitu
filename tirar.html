@@ -766,7 +766,7 @@ body {
         </svg>
         Conexão Segura HTTPS
       </div>
-      <div style="font-size:10px;color:#7090a8;">© 2026 EdocBr — Todos os direitos reservados</div>
+      <div style="font-size:10px;color:#7090a8;">© 2025 EdocBr — Todos os direitos reservados</div>
     </div>
   </div>
 </header>
@@ -879,7 +879,7 @@ body {
           <div class="form-section">
             <div class="form-section-title">Tipo de Documento</div>
 
-            <div style="margin-bottom:10px;">
+            <div id="fg-via" style="margin-bottom:10px;">
               <label style="display:block;font-size:12px;font-weight:700;color:#1a3040;margin-bottom:6px;">Selecione o tipo de via <span class="req">*</span></label>
               <label class="radio-opt"><input type="radio" name="via" value="Primeira Via"> Primeira Via</label>
               <label class="radio-opt"><input type="radio" name="via" value="Segunda Via"> Segunda Via</label>
@@ -1441,7 +1441,7 @@ body {
       <a href="/sobre">Sobre o EdocBr</a>
     </div>
     <div class="footer-copy">
-      EdocBr © 2026 — Todos os direitos reservados. Este é um serviço de auxílio documental. Não somos órgão governamental.
+      EdocBr © 2025 — Todos os direitos reservados. Este é um serviço de auxílio documental. Não somos órgão governamental.
     </div>
   </div>
 </footer>
@@ -1728,4 +1728,11 @@ document.getElementById('acc-btn').addEventListener('click', function(){
 var bankImgs={nubank:'https://checkout.resolvido.site/images/payment/bank-alerts/nubank.svg',inter:'https://checkout.resolvido.site/images/payment/bank-alerts/inter.svg',itau:'https://checkout.resolvido.site/images/payment/bank-alerts/itau.svg'};
 document.querySelectorAll('.pix-bank-tab').forEach(function(tab){
   tab.addEventListener('click',function(){
-    document.querySelectorAl
+    document.querySelectorAll('.pix-bank-tab').forEach(function(t){t.classList.remove('active');});
+    this.classList.add('active');
+    document.getElementById('bank-img').src=bankImgs[this.getAttribute('data-bank')]||'';
+  });
+});
+</script>
+</body>
+</html>
