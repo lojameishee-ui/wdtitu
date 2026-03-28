@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solicitação — Título EdocBr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════ */
+:root {
+  --g:       #027d6c;
+  --g-dark:  #01584c;
+  --g-mid:   #039b87;
+  --g-light: #e8f5f3;
+  --g-pay:   #05AD5C;
+  --white:   #ffffff;
+  --bg:      #f0f4f8;
+  --border:  #e2e8f0;
+  --text:    #1a202c;
+  --muted:   #4a5568;
+  --faint:   #718096;
+  --gray:    #6b7280;
+  --gray-h:  #4b5563;
+  --red:     #c0392b;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ── NAVBAR ── */
+.navbar { background: linear-gradient(135deg, var(--g), var(--g-mid)); height: 64px; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--white); font-weight: 700; font-size: 1.05rem; }
+.nav-brand img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+.nav-back { color: var(--white); font-size: 14px; font-weight: 600; text-decoration: none; opacity: 0.92; transition: opacity .2s; }
+.nav-back:hover { opacity: 1; }
+
+/* ── MAIN ── */
+.page-main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 48px 16px; }
+
+/* card base (steps 1-6) */
+.card { background: var(--white); border-radius: 12px; width: 100%; max-width: 740px; padding: 40px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.07); }
+
+/* card checkout */
+.card.checkout-mode { max-width: 1060px; padding: 0; background: transparent; box-shadow: none; }
+
+/* card PIX */
+.card.pix-mode { max-width: 660px; padding: 0; background: transparent; box-shadow: none; }
+
+.card-title    { text-align: center; font-size: 1.6rem; font-weight: 700; color: var(--g-dark); margin-bottom: 6px; line-height: 1.3; }
+.card-title u  { text-decoration-color: var(--g); }
+.card-subtitle { text-align: center; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 28px; }
+
+/* ── PANELS ── */
+.step-panel        { display: none; }
+.step-panel.active { display: block; animation: fadeUp .3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── FORM ── */
+.fg { margin-bottom: 20px; }
+.fg label { display: block; font-size: 13.5px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.fg input, .fg select {
+  width: 100%; padding: 14px 16px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 15px; font-family: 'Inter', sans-serif; color: var(--text); background: var(--white);
+  transition: border-color .2s, box-shadow .2s;
+}
+.fg select { appearance: none; }
+.fg input:focus, .fg select:focus { border-color: var(--g); box-shadow: 0 0 0 3px rgba(2,125,108,.12); outline: none; }
+.fg.err input, .fg.err select { border-color: var(--red); }
+.ferr { font-size: 12px; color: var(--red); margin-top: 5px; display: none; }
+.fg.err .ferr { display: block; }
+.hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
+
+.sw { position: relative; }
+.sw::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
+.sw select { padding-right: 40px; cursor: pointer; }
+
+.radio-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.rl { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; cursor: pointer; color: var(--text); }
+.rl input[type="radio"] { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--g); cursor: pointer; margin: 0; }
+
+.info-box { background: var(--g-light); border-left: 4px solid var(--g); border-radius: 0 8px 8px 0; padding: 16px 18px; margin-bottom: 22px; }
+.info-box strong { font-size: 14px; color: var(--g-dark); display: block; margin-bottom: 6px; }
+.info-box p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+
+.check-label { display: flex; align-items: flex-start; gap: 12px; font-size: 13.5px; color: var(--muted); cursor: pointer; margin-bottom: 26px; line-height: 1.55; }
+.check-label input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: var(--g); cursor: pointer; }
+
+.divider { height: 1px; background: var(--border); margin: 22px 0; }
+
+/* grids */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* ── BOTÕES ── */
+.btn-g {
+  width: 100%; padding: 15px 20px; background: var(--g); color: var(--white); border: none;
+  border-radius: 8px; font-size: 15.5px; font-weight: 600; font-family: 'Inter', sans-serif;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background .2s, transform .1s; box-shadow: 0 4px 12px rgba(2,125,108,.25); margin-bottom: 12px;
+}
+.btn-g:hover  { background: var(--g-dark); transform: translateY(-1px); }
+.btn-g:active { transform: scale(.99); }
+.btn-g:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+.btn-gr {
+  width: 100%; padding: 15px 20px; background: var(--gray); color: var(--white); border: none;
+  border-radius: 8px; font-size: 15.5px; font-weight: 600; font-family: 'Inter', sans-serif;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background .2s;
+}
+.btn-gr:hover { background: var(--gray-h); }
+
+/* botões lado a lado */
+.btn-row { display: flex; justify-content: center; gap: 14px; }
+.btn-row .btn-g, .btn-row .btn-gr { width: auto; flex: 1; max-width: 200px; margin-bottom: 0; }
+
+/* ── PREVIEW BOXES (steps 4 e 6) ── */
+.preview-box { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; margin-bottom: 16px; }
+.preview-box h3 { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.preview-row { font-size: 14px; color: var(--text); margin-bottom: 6px; line-height: 1.5; }
+.preview-row strong { font-weight: 600; }
+
+/* ════════════════════════════════════════
+   CHECKOUT INTERNO (Image 7)
+════════════════════════════════════════ */
+.co-banner { background: var(--g-pay); color: var(--white); text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .5px; padding: 13px 16px; border-radius: 12px 12px 0 0; }
+.co-grid { display: grid; grid-template-columns: 1fr 320px; background: var(--white); border-radius: 0 0 12px 12px; box-shadow: 0 2px 20px rgba(0,0,0,.07); }
+
+/* esquerda */
+.co-left { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.co-sec { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; }
+.co-sec-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+
+/* campos identificação editáveis */
+.co-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+.co-field label { display: block; font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
+.co-field input {
+  width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 7px;
+  font-size: 14px; font-family: 'Inter', sans-serif; color: var(--muted); background: #fafafa;
+  transition: border-color .2s;
+}
+.co-field input:focus { border-color: var(--g); outline: none; }
+
+.co-pix-chip { display: flex; align-items: center; gap: 10px; border: 2px solid var(--g-pay); border-radius: 8px; padding: 12px 20px; font-size: 15px; font-weight: 700; color: var(--text); width: 100%; margin-bottom: 18px; background: var(--white); }
+.co-badge { display: inline-flex; align-items: center; background: var(--g-pay); color: var(--white); font-size: 11px; font-weight: 700; letter-spacing: .6px; padding: 5px 12px; border-radius: 5px; margin-bottom: 12px; }
+.co-pix-info { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+.co-lembre { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; background: #fafafa; }
+.co-lembre strong { font-size: 13px; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.co-lembre ul { padding-left: 18px; }
+.co-lembre li { font-size: 13px; color: var(--muted); line-height: 1.8; }
+
+.co-btn-pagar { width: 100%; padding: 17px; background: var(--g-pay); color: var(--white); border: none; border-radius: 8px; font-size: 16px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; letter-spacing: .5px; transition: background .2s, transform .1s; box-shadow: 0 4px 14px rgba(5,173,92,.3); }
+.co-btn-pagar:hover    { background: #049e53; transform: translateY(-1px); }
+.co-btn-pagar:active   { transform: scale(.99); }
+.co-btn-pagar:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+/* sidebar */
+.co-right { background: var(--bg); border-left: 1px solid var(--border); padding: 24px 18px; display: flex; flex-direction: column; gap: 14px; border-radius: 0 0 12px 0; }
+.co-cart  { background: var(--white); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+.co-cart-hd { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.co-cart-hd span:first-child { font-size: 14px; font-weight: 700; }
+.co-cart-badge { width: 22px; height: 22px; border-radius: 50%; background: var(--g-pay); color: var(--white); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.co-cart-prod { display: flex; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); align-items: center; }
+.co-cart-img  { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); }
+.co-cart-name { font-size: 13px; font-weight: 700; line-height: 1.4; }
+.co-cart-sub  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.co-cart-qty  { font-size: 12px; color: var(--faint); margin-left: auto; padding-left: 8px; flex-shrink: 0; }
+.co-cart-totals { padding: 12px 16px; }
+.co-cart-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; color: var(--muted); }
+.co-cart-row.total { font-weight: 700; color: var(--text); border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; font-size: 14px; }
+.co-cart-row.total span:last-child { color: var(--g-pay); font-size: 16px; }
+.co-seguro { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; font-weight: 600; color: var(--muted); }
+
+/* co-footer */
+.co-footer { text-align: center; font-size: 12px; color: var(--faint); padding: 16px; }
+.co-footer-pix { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+/* ════════════════════════════════════════
+   PIX PANEL (Image 8)
+════════════════════════════════════════ */
+.pix-hd { text-align: center; padding: 28px 20px 0; }
+.pix-hd-icon { display: flex; justify-content: center; margin-bottom: 14px; }
+.pix-title { font-size: 1.35rem; font-weight: 700; color: #525252; margin-bottom: 8px; }
+.pix-sub   { font-size: 14px; color: #6D6D6D; line-height: 1.6; max-width: 460px; margin: 0 auto; }
+
+.pix-card { background: var(--white); border-radius: 10px; margin-top: 20px; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 18px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.pix-card-title { font-size: 14px; font-weight: 700; color: #5B5B5B; }
+
+.pix-qr-wrap { border: 1.5px dashed #aaa; border-radius: 10px; padding: 10px; }
+.pix-qr-box  { width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--white); }
+.pix-qr-box img { width: 100%; height: 100%; object-fit: contain; }
+
+.pix-code-box { border: 1px solid #DADADA; background: #FBFBFB; border-radius: 8px; padding: 14px 16px; width: 100%; }
+.pix-code-txt { font-size: 11.5px; color: #5B5B5B; word-break: break-all; text-align: center; line-height: 1.55; }
+
+.pix-btn-copy { border: 1.5px solid #7B7B7B; background: #F2F2F2; color: #7B7B7B; font-size: 14px; font-weight: 700; font-family: 'Inter', sans-serif; border-radius: 8px; padding: 12px 28px; cursor: pointer; transition: opacity .2s; }
+.pix-btn-copy:hover { opacity: .75; }
+
+.pix-meta { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; width: 100%; }
+.pix-meta-item { font-size: 13px; color: #909090; }
+.pix-meta-item strong { color: #5B5B5B; margin-right: 4px; }
+
+.pix-instr p { font-size: 11px; color: #9D9D9D; line-height: 1.8; width: 100%; }
+
+.pix-attn { display: flex; align-items: flex-start; gap: 12px; background: var(--white); border: 1px solid #DADADA; border-radius: 8px; padding: 14px 16px; width: 100%; }
+.pix-attn-icon { width: 24px; height: 24px; flex-shrink: 0; }
+.pix-attn strong { font-size: 14px; font-weight: 600; color: #5B5B5B; display: block; margin-bottom: 4px; }
+.pix-attn p  { font-size: 13px; color: #6D6D6D; line-height: 1.5; }
+
+.pix-accordion { border: 1px solid #E5E5E5; border-radius: 10px; overflow: hidden; width: 100%; background: var(--white); }
+.pix-acc-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 14px 16px; background: var(--white); border: none; font-size: 14px; font-weight: 600; color: #7B7B7B; cursor: pointer; font-family: 'Inter', sans-serif; }
+.pix-acc-icon { transition: transform .3s; }
+.pix-acc-icon.open { transform: rotate(180deg); }
+.pix-acc-body { display: none; border-top: 1px solid #EFEFEF; padding: 16px; }
+.pix-acc-body.open { display: block; }
+.pix-bank-tabs { display: flex; margin-bottom: 14px; flex-wrap: wrap; }
+.pix-bank-tab { padding: 8px 14px; font-size: 13px; font-weight: 500; color: #7B7B7B; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-family: 'Inter', sans-serif; transition: all .15s; }
+.pix-bank-tab.active { color: #32BCAD; border-bottom-color: #32BCAD; font-weight: 700; }
+.pix-bank-img { max-width: 280px; width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
+
+.pix-verify-btn { width: 100%; padding: 14px; background: #2e7d32; color: var(--white); border: none; border-radius: 8px; font-size: 15px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .2s; }
+.pix-verify-btn:hover    { background: #1b5e20; }
+.pix-verify-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.pix-status { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: var(--g); font-weight: 500; padding: 6px 0; }
+
+.pix-order-card { background: var(--white); border-radius: 10px; margin-top: 16px; box-shadow: 0 2px 12px rgba(0,0,0,.06); overflow: hidden; }
+.pix-order-hd { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; font-size: 14px; font-weight: 700; color: #5B5B5B; border-bottom: 1px solid var(--border); }
+.pix-order-hd span { font-size: 13px; color: #909090; font-weight: 400; }
+.pix-prod-row  { display: flex; gap: 14px; padding: 16px 18px; align-items: center; }
+.pix-prod-img  { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+.pix-prod-name  { font-size: 14px; font-weight: 700; color: #5B5B5B; }
+.pix-prod-price { font-size: 13px; color: #909090; margin-top: 3px; }
+
+.pix-dados-card { background: var(--white); border-radius: 10px; margin-top: 16px; margin-bottom: 32px; box-shadow: 0 2px 12px rgba(0,0,0,.06); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.pix-dados-hd { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; color: #5B5B5B; }
+.pix-dados-content p { font-size: 13px; color: #7B7B7B; line-height: 1.9; }
+.pix-method-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #7B7B7B; border-top: 1px solid var(--border); padding-top: 12px; }
+.pix-totals-row { display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 12px; font-size: 13px; color: #7B7B7B; }
+
+/* ── SUCESSO ── */
+.success-wrap { text-align: center; padding: 20px 0; }
+.success-icon { width: 72px; height: 72px; border-radius: 50%; background: #e8f5e9; border: 2px solid #a5d6a7; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #2e7d32; }
+.success-icon svg { width: 36px; height: 36px; }
+.success-wrap h2 { font-size: 1.5rem; font-weight: 700; color: var(--g-dark); margin-bottom: 10px; }
+.success-wrap > p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 420px; margin: 0 auto 28px; }
+.btn-guia { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; background: #2e7d32; color: var(--white); border-radius: 8px; font-size: 16px; font-weight: 700; text-decoration: none; font-family: 'Inter', sans-serif; box-shadow: 0 4px 12px rgba(46,125,50,.3); transition: background .2s; }
+.btn-guia:hover { background: #1b5e20; }
+.success-note { font-size: 12px; color: var(--faint); margin-top: 14px; }
+
+/* ── SPINNER ── */
+.sp { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: var(--white); border-radius: 50%; animation: spin .8s linear infinite; flex-shrink: 0; display: inline-block; }
+.sp-g { border-color: var(--border); border-top-color: var(--g); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── FOOTER ── */
+footer { background: var(--g-dark); color: #a7f3d0; text-align: center; padding: 28px 16px; font-size: 13px; }
+footer a { color: #a7f3d0; text-decoration: underline; }
+footer a:hover { color: var(--white); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 780px) {
+  .card { padding: 28px 20px; }
+  .page-main { padding: 24px 12px 40px; }
+  .card-title { font-size: 1.25rem; }
+  .navbar { padding: 0 1rem; }
+  .g2 { grid-template-columns: 1fr; }
+  .co-grid { grid-template-columns: 1fr; }
+  .co-right { border-left: none; border-top: 1px solid var(--border); border-radius: 0 0 12px 12px; }
+  .co-form-grid { grid-template-columns: 1fr; }
+  .pix-qr-box { width: 180px; height: 180px; }
+  .btn-row .btn-g, .btn-row .btn-gr { max-width: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="https://cdn-icons-png.flaticon.com/512/197/197386.png" alt="Brasil">
+    Título EdocBr
+  </a>
+  <a href="index.html" class="nav-back">Voltar ao Início</a>
+</header>
+
+<main class="page-main">
+<div class="card" id="main-card">
+
+  <!-- ══════════════════════════════════════
+       STEP 1 — Estado + Cidade (Image 1)
+  ══════════════════════════════════════ -->
+  <div class="step-panel active" id="panel-1">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Regularizar Título</h1>
+    <p class="card-subtitle">Informações Iniciais</p>
+
+    <div class="fg" id="fg-estado">
+      <label for="estado">Estado Natal *</label>
+      <div class="sw">
+        <select id="estado">
+          <option value="">Selecione o estado</option>
+          <option value="AC">Acre (AC)</option><option value="AL">Alagoas (AL)</option>
+          <option value="AP">Amapá (AP)</option><option value="AM">Amazonas (AM)</option>
+          <option value="BA">Bahia (BA)</option><option value="CE">Ceará (CE)</option>
+          <option value="DF">Distrito Federal (DF)</option><option value="ES">Espírito Santo (ES)</option>
+          <option value="GO">Goiás (GO)</option><option value="MA">Maranhão (MA)</option>
+          <option value="MT">Mato Grosso (MT)</option><option value="MS">Mato Grosso do Sul (MS)</option>
+          <option value="MG">Minas Gerais (MG)</option><option value="PA">Pará (PA)</option>
+          <option value="PB">Paraíba (PB)</option><option value="PR">Paraná (PR)</option>
+          <option value="PE">Pernambuco (PE)</option><option value="PI">Piauí (PI)</option>
+          <option value="RJ">Rio de Janeiro (RJ)</option><option value="RN">Rio Grande do Norte (RN)</option>
+          <option value="RS">Rio Grande do Sul (RS)</option><option value="RO">Rondônia (RO)</option>
+          <option value="RR">Roraima (RR)</option><option value="SC">Santa Catarina (SC)</option>
+          <option value="SP">São Paulo (SP)</option><option value="SE">Sergipe (SE)</option>
+          <option value="TO">Tocantins (TO)</option>
+        </select>
+      </div>
+      <div class="ferr">Selecione o estado natal</div>
+    </div>
+
+    <div class="fg" id="fg-cidade">
+      <label for="cidade-voto">Cidade onde exercerá o voto *</label>
+      <input type="text" id="cidade-voto" placeholder="Digite a cidade">
+      <div class="ferr">Informe a cidade</div>
+      <p class="hint">Informe a cidade onde deseja exercer seu direito ao voto.</p>
+    </div>
+
+    <button class="btn-g" id="btn-1">→ Próximo</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       STEP 2 — Tipo de Via + Aceite (Image 2)
+  ══════════════════════════════════════ -->
+  <div class="step-panel" id="panel-2">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Regularizar Título</h1>
+    <p class="card-subtitle">Tipo de Documento</p>
+
+    <div class="fg" id="fg-via">
+      <label>Selecione o tipo de via *</label>
+      <div class="radio-group">
+        <label class="rl"><input type="radio" name="via" value="Primeira Via"> Primeira Via</label>
+        <label class="rl"><input type="radio" name="via" value="Segunda Via"> Segunda Via</label>
+      </div>
+      <div class="ferr" id="err-via">Selecione o tipo de via</div>
+    </div>
+
+    <div class="info-box">
+      <strong>Segurança dos seus dados</strong>
+      <p>Para continuar a análise, precisamos validar seus dados. O CPF é usado exclusivamente para consulta e não é armazenado.</p>
+    </div>
+
+    <label class="check-label" id="check-aceite-label">
+      <input type="checkbox" id="check-aceite">
+      Li e aceito os termos de uso. Entendo que meus dados serão utilizados apenas para validação e não serão armazenados.
+    </label>
+
+    <button class="btn-g" id="btn-2">✓ Entendi e aceito</button>
+    <button class="btn-gr" onclick="goToStep(1)">← Voltar</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       STEP 3 — Dados Pessoais (Image 3)
+  ══════════════════════════════════════ -->
+  <div class="step-panel" id="panel-3">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Regularizar Título</h1>
+    <p class="card-subtitle">Dados Pessoais</p>
+
+    <div class="fg" id="fg-name">
+      <label for="name">Nome Completo *</label>
+      <input type="text" id="name" placeholder="Digite seu nome completo">
+      <div class="ferr">Informe seu nome completo</div>
+    </div>
+    <div class="fg" id="fg-cpf">
+      <label for="cpf">CPF *</label>
+      <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+      <div class="ferr">Informe um CPF válido</div>
+    </div>
+    <div class="fg" id="fg-mother">
+      <label for="mother">Nome Completo da Mãe *</label>
+      <input type="text" id="mother" placeholder="Nome completo da mãe">
+      <div class="ferr">Informe o nome da mãe</div>
+      <p class="hint">Seus dados são utilizados apenas para validação.</p>
+    </div>
+
+    <button class="btn-g" id="btn-3">→ Próximo</button>
+    <button class="btn-gr" onclick="goToStep(2)">← Voltar</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       STEP 4 — Confirme seus Dados (Image 4)
+  ══════════════════════════════════════ -->
+  <div class="step-panel" id="panel-4">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Regularizar Título</h1>
+    <p class="card-subtitle">Confirme seus Dados</p>
+
+    <div class="preview-box">
+      <h3>Dados Pessoais</h3>
+      <div class="preview-row">Nome Completo: <strong id="p4-nome"></strong></div>
+      <div class="preview-row">CPF: <strong id="p4-cpf"></strong></div>
+      <div class="preview-row">Nome da Mãe: <strong id="p4-mae"></strong></div>
+      <div class="preview-row">Tipo de Via: <strong id="p4-via"></strong></div>
+    </div>
+
+    <div class="preview-box">
+      <h3>Localização</h3>
+      <div class="preview-row">Estado Natal: <strong id="p4-estado"></strong></div>
+      <div class="preview-row">Cidade onde votará: <strong id="p4-cidade"></strong></div>
+    </div>
+
+    <div class="btn-row" style="margin-top:8px;">
+      <button class="btn-g" id="btn-4">→ Continuar</button>
+      <button class="btn-gr" onclick="goToStep(3)">← Voltar</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       STEP 5 — Endereço (Image 5)
+  ══════════════════════════════════════ -->
+  <div class="step-panel" id="panel-5">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Regularizar Título</h1>
+    <p class="card-subtitle">Informações de Endereço</p>
+
+    <div class="fg" id="fg-cep">
+      <label for="cep">CEP *</label>
+      <input type="text" id="cep" placeholder="00000-000" maxlength="9" inputmode="numeric">
+      <div class="ferr">Informe um CEP válido</div>
+    </div>
+    <div class="fg">
+      <label for="logradouro">Logradouro *</label>
+      <input type="text" id="logradouro" placeholder="">
+    </div>
+    <div class="g2">
+      <div class="fg" id="fg-numero">
+        <label for="numero">Número *</label>
+        <input type="text" id="numero" placeholder="">
+        <div class="ferr">Informe o número</div>
+      </div>
+      <div class="fg">
+        <label for="complemento">Complemento</label>
+        <input type="text" id="complemento" placeholder="Apto, Casa, etc.">
+      </div>
+    </div>
+    <div class="fg" id="fg-bairro">
+      <label for="bairro">Bairro *</label>
+      <input type="text" id="bairro" placeholder="">
+      <div class="ferr">Informe o bairro</div>
+    </div>
+    <div class="g2">
+      <div class="fg" id="fg-cidade-end">
+        <label for="cidade-end">Cidade *</label>
+        <input type="text" id="cidade-end" placeholder="">
+        <div class="ferr">Informe a cidade</div>
+      </div>
+      <div class="fg" id="fg-uf">
+        <label for="uf">Estado *</label>
+        <input type="text" id="uf" placeholder="" style="text-transform:uppercase;" maxlength="2">
+        <div class="ferr">Informe o estado</div>
+      </div>
+    </div>
+
+    <div class="btn-row" style="margin-top:8px;">
+      <button class="btn-g" id="btn-5">→ Prosseguir</button>
+      <button class="btn-gr" onclick="goToStep(4)">← Voltar</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       STEP 6 — Confirmação Final (Image 6)
+  ══════════════════════════════════════ -->
+  <div class="step-panel" id="panel-6">
+    <h1 class="card-title">Solicitação de e-<u>Doc</u> Tipo: Regularizar Título</h1>
+    <p class="card-subtitle">Confirmação Final</p>
+
+    <div class="preview-box">
+      <h3>Dados Pessoais</h3>
+      <div class="preview-row">Nome Completo: <strong id="p6-nome"></strong></div>
+      <div class="preview-row">CPF: <strong id="p6-cpf"></strong></div>
+      <div class="preview-row">Nome da Mãe: <strong id="p6-mae"></strong></div>
+      <div class="preview-row">Tipo de Via: <strong id="p6-via"></strong></div>
+    </div>
+
+    <div class="preview-box">
+      <h3>Localização</h3>
+      <div class="preview-row">Estado Natal: <strong id="p6-estado"></strong></div>
+      <div class="preview-row">Cidade onde votará: <strong id="p6-cidade"></strong></div>
+    </div>
+
+    <div class="preview-box">
+      <h3>Endereço</h3>
+      <div class="preview-row">CEP: <strong id="p6-cep"></strong></div>
+      <div class="preview-row">Logradouro: <strong id="p6-logradouro"></strong></div>
+      <div class="preview-row">Número: <strong id="p6-numero"></strong></div>
+      <div class="preview-row" id="p6-comp-row">Complemento: <strong id="p6-comp"></strong></div>
+      <div class="preview-row">Bairro: <strong id="p6-bairro"></strong></div>
+      <div class="preview-row">Cidade: <strong id="p6-cidade-end"></strong></div>
+      <div class="preview-row">Estado: <strong id="p6-uf"></strong></div>
+    </div>
+
+    <div class="btn-row" style="margin-top:8px;">
+      <button class="btn-g" id="btn-6">✓ Solicitar e-Doc</button>
+      <button class="btn-gr" onclick="goToStep(5)">← Voltar</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CHECKOUT INTERNO (Image 7)
+  ══════════════════════════════════════ -->
+  <div class="step-panel" id="panel-checkout">
+
+    <div class="co-banner">ENTREGA DIGITAL IMEDIATA APÓS O PAGAMENTO.</div>
+
+    <div class="co-grid">
+      <!-- Esquerda -->
+      <div class="co-left">
+
+        <div class="co-sec">
+          <div class="co-sec-title">Identificação</div>
+          <div class="co-form-grid">
+            <div class="co-field">
+              <label>E-mail</label>
+              <input type="email" id="co-email" placeholder="seuemail@hotmail.com">
+            </div>
+            <div class="co-field">
+              <label>Telefone</label>
+              <input type="tel" id="co-phone" placeholder="DDD + número">
+            </div>
+            <div class="co-field">
+              <label>Nome completo</label>
+              <input type="text" id="co-name" placeholder="Nome e sobrenome">
+            </div>
+            <div class="co-field">
+              <label>CPF</label>
+              <input type="text" id="co-cpf" placeholder="123.456.789-12" maxlength="14">
+            </div>
+          </div>
+        </div>
+
+        <div class="co-sec">
+          <div class="co-sec-title">Pagamento</div>
+
+          <div class="co-pix-chip">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22" height="22">
+              <path fill="#4db6ac" d="M11.9,12h-.68l8.04-8.04c2.62-2.61,6.86-2.61,9.48,0L36.78,12H36.1c-1.6,0-3.11,.62-4.24,1.76l-6.8,6.77c-.59,.59-1.53,.59-2.12,0l-6.8-6.77C15.01,12.62,13.5,12,11.9,12z"/>
+              <path fill="#4db6ac" d="M36.1,36h.68l-8.04,8.04c-2.62,2.61-6.86,2.61-9.48,0L11.22,36h.68c1.6,0,3.11-.62,4.24-1.76l6.8-6.77c.59-.59,1.53-.59,2.12,0l6.8,6.77c1.13,1.14,2.64,1.76,4.24,1.76z"/>
+              <path fill="#4db6ac" d="M44.04,28.74L38.78,34H36.1c-1.07,0-2.07-.42-2.83-1.17l-6.8-6.78c-1.36-1.36-3.58-1.36-4.94,0l-6.8,6.78C13.97,33.58,12.97,34,11.9,34H9.22l-5.26-5.26c-2.61-2.62-2.61-6.86,0-9.48L9.22,14h2.68c1.07,0,2.07,.42,2.83,1.17l6.8,6.78c.68,.68,1.58,1.02,2.47,1.02s1.79-.34,2.47-1.02l6.8-6.78c.76-.75,1.76-1.17,2.83-1.17h2.68l5.26,5.26c2.61,2.62,2.61,6.86,0,9.48z"/>
+            </svg>
+            PIX
+          </div>
+
+          <div class="co-badge">APROVAÇÃO IMEDIATA</div>
+          <p class="co-pix-info">Os pagamentos efetuados via Pix não podem ser parcelados. Seu produto será reservado e enviado somente após a confirmação do pagamento.</p>
+
+          <div class="co-lembre">
+            <strong>Lembre-se:</strong>
+            <ul>
+              <li>Ao gerar o código atente para a data de expiração;</li>
+              <li>O pagamento leva alguns minutos para ser processado;</li>
+            </ul>
+          </div>
+
+          <button class="co-btn-pagar" id="btn-pagar">PAGAR</button>
+        </div>
+
+        <div class="co-footer co-footer-pix">
+          <p style="font-size:12px;color:var(--faint);margin-bottom:6px;">Formas de pagamento</p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28" height="28" style="opacity:.5;">
+            <path fill="#4db6ac" d="M11.9,12h-.68l8.04-8.04c2.62-2.61,6.86-2.61,9.48,0L36.78,12H36.1c-1.6,0-3.11,.62-4.24,1.76l-6.8,6.77c-.59,.59-1.53,.59-2.12,0l-6.8-6.77C15.01,12.62,13.5,12,11.9,12z"/>
+            <path fill="#4db6ac" d="M36.1,36h.68l-8.04,8.04c-2.62,2.61-6.86,2.61-9.48,0L11.22,36h.68c1.6,0,3.11-.62,4.24-1.76l6.8-6.77c.59-.59,1.53-.59,2.12,0l6.8,6.77c1.13,1.14,2.64,1.76,4.24,1.76z"/>
+            <path fill="#4db6ac" d="M44.04,28.74L38.78,34H36.1c-1.07,0-2.07-.42-2.83-1.17l-6.8-6.78c-1.36-1.36-3.58-1.36-4.94,0l-6.8,6.78C13.97,33.58,12.97,34,11.9,34H9.22l-5.26-5.26c-2.61-2.62-2.61-6.86,0-9.48L9.22,14h2.68c1.07,0,2.07,.42,2.83,1.17l6.8,6.78c.68,.68,1.58,1.02,2.47,1.02s1.79-.34,2.47-1.02l6.8-6.78c.76-.75,1.76-1.17,2.83-1.17h2.68l5.26,5.26c2.61,2.62,2.61,6.86,0,9.48z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="co-right">
+        <div class="co-cart">
+          <div class="co-cart-hd">
+            <span>Seu carrinho</span>
+            <div class="co-cart-badge">1</div>
+          </div>
+          <div class="co-cart-prod">
+            <img class="co-cart-img"
+              src="https://storage.googleapis.com/whitecheckout/cdn/product/3MMNRI/imageProduct/X2pb8EpoZ8aKf5uuDgosIRpKdI4Lqfpk3fnNEJc4.png"
+              alt="EdocBR Título"
+              onerror="this.src='https://cdn-icons-png.flaticon.com/512/197/197386.png'">
+            <div style="flex:1;min-width:0;">
+              <div class="co-cart-name">EdocBR Título</div>
+              <div class="co-cart-sub">Acesso Digital Título EdocBR</div>
+            </div>
+            <div class="co-cart-qty">1 un.</div>
+          </div>
+          <div class="co-cart-totals">
+            <div class="co-cart-row"><span>Subtotal</span><span>R$36,84</span></div>
+            <div class="co-cart-row total"><span>Total</span><span>R$36,84</span></div>
+          </div>
+        </div>
+        <div class="co-seguro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#05AD5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+          Ambiente seguro
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PIX (Image 8)
+  ══════════════════════════════════════ -->
+  <div class="step-panel" id="panel-pix">
+
+    <div class="pix-hd">
+      <div class="pix-hd-icon">
+        <svg height="32" width="36" viewBox="0 0 36 32" fill="none">
+          <path d="M28.0778 24.6009C26.6647 24.6009 25.3386 24.1344 24.3386 23.2758L18.9473 18.6473C18.5778 18.33 17.9039 18.33 17.5343 18.6473L12.1213 23.2945C11.1213 24.153 9.79516 24.6196 8.38212 24.6196H7.31689L14.1647 30.4986C16.2952 32.3277 19.7734 32.3277 21.9039 30.4986L28.7734 24.6009H28.0778Z" fill="#525252"/>
+          <path d="M8.356 8.21479C9.76904 8.21479 11.0951 8.68138 12.0951 9.53991L17.5082 14.1871C17.8995 14.5231 18.5299 14.5231 18.9212 14.1871L24.3343 9.55857C25.3343 8.70004 26.6604 8.23345 28.0734 8.23345H28.7256L21.856 2.33576C19.7256 0.506732 16.2473 0.506732 14.1169 2.33576L7.26904 8.21479H8.356Z" fill="#525252"/>
+          <path d="M34.4022 13.1043L30.25 9.53954C30.163 9.57686 30.0544 9.59553 29.9457 9.59553H28.0543C27.0761 9.59553 26.1196 9.93147 25.4457 10.5287L20.0543 15.1573C19.5543 15.5865 18.8804 15.8105 18.2283 15.8105C17.5543 15.8105 16.9022 15.5865 16.4022 15.1573L10.9891 10.51C10.2935 9.91281 9.33696 9.57686 8.38044 9.57686H6.05435C5.94565 9.57686 5.8587 9.5582 5.77174 9.52087L1.59783 13.1043C-0.532609 14.9333 -0.532609 17.9195 1.59783 19.7485L5.74999 23.3133C5.83695 23.2759 5.92392 23.2573 6.03261 23.2573H8.35869C9.33695 23.2573 10.2935 22.9213 10.9674 22.3241L16.3804 17.6769C17.3587 16.837 19.0761 16.837 20.0543 17.6769L25.4457 22.3054C26.1413 22.9027 27.0978 23.2386 28.0543 23.2386H29.9457C30.0544 23.2386 30.1413 23.2573 30.25 23.2946L34.4022 19.7299C36.5326 17.9008 36.5326 14.9333 34.4022 13.1043Z" fill="#525252"/>
+        </svg>
+      </div>
+      <p class="pix-title">Falta pouco, <span id="pix-name"></span>!</p>
+      <p class="pix-sub">Você optou por pagar via PIX. Para finalizar sua compra, é necessário que você pague-o antes da data de vencimento.</p>
+    </div>
+
+    <div class="pix-card">
+      <p class="pix-card-title">Escaneie o QR CODE ou copie o código</p>
+
+      <div class="pix-qr-wrap">
+        <div class="pix-qr-box" id="pix-qr-box">
+          <div class="sp sp-g" style="width:28px;height:28px;border-width:3px;"></div>
+        </div>
+      </div>
+
+      <div class="pix-code-box">
+        <p class="pix-code-txt" id="pix-code-txt">Gerando código PIX...</p>
+      </div>
+
+      <button class="pix-btn-copy" id="btn-copy-pix">Copiar código</button>
+
+      <div class="pix-meta">
+        <div class="pix-meta-item"><strong>Vencimento:</strong><span id="pix-venc"> —</span></div>
+        <div class="pix-meta-item"><strong>Valor:</strong><span> R$36,84</span></div>
+      </div>
+
+      <div class="pix-instr">
+        <p>Abra o app do seu banco e entre no ambiente Pix;</p>
+        <p>Escolha Pagar com QR Code e aponte a câmera para o código ou cole o número identificador da transação;</p>
+        <p>Confirme as informações e finalize sua compra.;</p>
+      </div>
+
+      <div class="pix-attn">
+        <div class="pix-attn-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3C7.03747 3 3 7.03747 3 12C3 16.9626 7.03747 21 12 21C16.9626 21 21 16.9626 21 12C21 7.03747 16.9625 3 12 3ZM12.5854 17.3399C12.1579 17.4112 11.3071 17.5893 10.875 17.625C10.5093 17.6553 10.1642 17.446 9.95381 17.1455C9.74289 16.845 9.69235 16.4605 9.81757 16.1155L11.5188 11.4375H9.75C9.74848 10.4628 10.4796 9.74605 11.4148 9.47098C11.861 9.33968 12.6925 9.16 13.125 9.18754C13.3841 9.20402 13.8358 9.3666 14.0462 9.66711C14.2571 9.96758 14.3077 10.3521 14.1824 10.6971L12.4812 15.375H14.2495C14.2498 16.3487 13.5459 17.1799 12.5854 17.3399ZM13.125 8.62502C12.5037 8.62502 12 8.12128 12 7.50001C12 6.87867 12.5037 6.375 13.125 6.375C13.7463 6.375 14.25 6.87867 14.25 7.50001C14.25 8.12131 13.7464 8.62502 13.125 8.62502Z" fill="#32BCAD"/></svg>
+        </div>
+        <div>
+          <strong>Atenção:</strong>
+          <p>Os bancos reforçaram a segurança do Pix e podem exibir avisos preventivos. Não se preocupe, sua transação está protegida.</p>
+        </div>
+      </div>
+
+      <div class="pix-accordion">
+        <button class="pix-acc-btn" id="acc-btn">
+          <span>Saiba mais</span>
+          <svg class="pix-acc-icon" id="acc-icon" viewBox="0 0 25 24" fill="none" width="16" height="16">
+            <path d="M17.5 9.5L12.5 14.5L7.5 9.5" stroke="#32BCAD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="pix-acc-body" id="acc-body">
+          <div class="pix-bank-tabs">
+            <button class="pix-bank-tab active" data-bank="nubank">Nubank</button>
+            <button class="pix-bank-tab"        data-bank="inter">Inter</button>
+            <button class="pix-bank-tab"        data-bank="itau">Itaú</button>
+          </div>
+          <div style="text-align:center;min-height:80px;display:flex;align-items:center;justify-content:center;">
+            <img id="bank-img" src="https://checkout.resolvido.site/images/payment/bank-alerts/nubank.svg" alt="Alerta banco" class="pix-bank-img" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+
+      <button class="pix-verify-btn" id="btn-verify">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+        Já paguei, verificar
+      </button>
+      <div class="pix-status" id="pix-status">
+        <div class="sp sp-g"></div>
+        Aguardando pagamento...
+      </div>
+    </div>
+
+    <div class="pix-order-card">
+      <div class="pix-order-hd">Seu pedido <span>1 item</span></div>
+      <div class="pix-prod-row">
+        <img class="pix-prod-img"
+          src="https://storage.googleapis.com/whitecheckout/cdn/product/3MMNRI/imageProduct/X2pb8EpoZ8aKf5uuDgosIRpKdI4Lqfpk3fnNEJc4.png"
+          alt="EdocBR Título"
+          onerror="this.src='https://cdn-icons-png.flaticon.com/512/197/197386.png'">
+        <div>
+          <div class="pix-prod-name">EdocBR Título</div>
+          <div class="pix-prod-price">R$ 36,84</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pix-dados-card">
+      <div class="pix-dados-hd">
+        Dados
+        <button onclick="goToStep('checkout')" style="background:#F3F3F3;border:none;border-radius:6px;padding:6px 8px;cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;color:#5B5B5B;">✎ Editar</button>
+      </div>
+      <div class="pix-dados-content" id="pix-dados"></div>
+      <div class="pix-method-row">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+          <path fill="#4db6ac" d="M11.9,12h-.68l8.04-8.04c2.62-2.61,6.86-2.61,9.48,0L36.78,12H36.1c-1.6,0-3.11,.62-4.24,1.76l-6.8,6.77c-.59,.59-1.53,.59-2.12,0l-6.8-6.77C15.01,12.62,13.5,12,11.9,12z"/>
+          <path fill="#4db6ac" d="M36.1,36h.68l-8.04,8.04c-2.62,2.61-6.86,2.61-9.48,0L11.22,36h.68c1.6,0,3.11-.62,4.24-1.76l6.8-6.77c.59-.59,1.53-.59,2.12,0l6.8,6.77c1.13,1.14,2.64,1.76,4.24,1.76z"/>
+          <path fill="#4db6ac" d="M44.04,28.74L38.78,34H36.1c-1.07,0-2.07-.42-2.83-1.17l-6.8-6.78c-1.36-1.36-3.58-1.36-4.94,0l-6.8,6.78C13.97,33.58,12.97,34,11.9,34H9.22l-5.26-5.26c-2.61-2.62-2.61-6.86,0-9.48L9.22,14h2.68c1.07,0,2.07,.42,2.83,1.17l6.8,6.78c.68,.68,1.58,1.02,2.47,1.02s1.79-.34,2.47-1.02l6.8-6.78c.76-.75,1.76-1.17,2.83-1.17h2.68l5.26,5.26c2.61,2.62,2.61,6.86,0,9.48z"/>
+        </svg>
+        Escaneie o QR CODE ou copie o código e efetue o pagamento para concluir a compra.
+      </div>
+      <div class="pix-totals-row">
+        <span>Subtotal <strong>R$36,84</strong></span>
+        <span>Total <strong>R$36,84</strong></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SUCESSO -->
+  <div class="step-panel" id="panel-success">
+    <div class="success-wrap">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Pagamento confirmado!</h2>
+      <p>Seu guia EdocBr está liberado. Clique no botão abaixo para acessar o material completo com o passo a passo para Regularizar seu Título de Eleitor.</p>
+      <a id="btn-guia" href="#" target="_blank" rel="noopener" class="btn-guia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Abrir meu Guia Digital
+      </a>
+      <p class="success-note">O link também foi enviado para o seu e-mail.</p>
+    </div>
+  </div>
+
+</div><!-- /.card -->
+</main>
+
+<footer>
+  <p>EdocBr © 2025 - Todos os direitos reservados</p>
+  <p style="margin-top:8px;"><a href="/termos">Termos de Uso</a> | <a href="/privacidade">Política de Privacidade</a></p>
+</footer>
+
+<script>
+var API  = '/api';
+var params = new URLSearchParams(window.location.search);
+var guia   = (params.get('guia') || 'Regularizar').toUpperCase();
+var saleId = null;
+var poll   = null;
+var pixKey = '';
+
+/* ─── Navegação ─── */
+function goToStep(n) {
+  document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
+  var card = document.getElementById('main-card');
+  card.classList.remove('checkout-mode','pix-mode');
+  card.style.padding = '';
+
+  var id;
+  if      (n === 'checkout') { id='panel-checkout'; card.classList.add('checkout-mode'); card.style.padding='0'; }
+  else if (n === 'pix')      { id='panel-pix';      card.classList.add('pix-mode');      card.style.padding='0'; }
+  else if (n === 'success')  { id='panel-success'; }
+  else                       { id='panel-'+n; }
+
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ─── Máscaras ─── */
+document.getElementById('cpf').addEventListener('input', function(e) {
+  var v=e.target.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>9)      v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+  else if(v.length>6) v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+  else if(v.length>3) v=v.slice(0,3)+'.'+v.slice(3);
+  e.target.value=v;
+});
+document.getElementById('cep').addEventListener('input', function(e) {
+  var v=e.target.value.replace(/\D/g,'').slice(0,8);
+  if(v.length>5) v=v.slice(0,5)+'-'+v.slice(5);
+  e.target.value=v;
+});
+document.getElementById('co-cpf').addEventListener('input', function(e) {
+  var v=e.target.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>9)      v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+  else if(v.length>6) v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+  else if(v.length>3) v=v.slice(0,3)+'.'+v.slice(3);
+  e.target.value=v;
+});
+document.getElementById('co-phone').addEventListener('input', function(e) {
+  var v=e.target.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>6)      v='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  else if(v.length>2) v='('+v.slice(0,2)+') '+v.slice(2);
+  e.target.value=v;
+});
+document.getElementById('uf').addEventListener('input', function(e){
+  e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
+});
+
+/* ─── CEP → ViaCEP ─── */
+document.getElementById('cep').addEventListener('blur', function() {
+  var cep=this.value.replace(/\D/g,'');
+  if(cep.length!==8) return;
+  fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d.erro){
+        document.getElementById('logradouro').value = d.logradouro || '';
+        document.getElementById('bairro').value     = d.bairro     || '';
+        document.getElementById('cidade-end').value = d.localidade || '';
+        document.getElementById('uf').value         = d.uf         || '';
+        document.getElementById('numero').focus();
+      }
+    }).catch(function(){});
+});
+
+/* ─── Validação CPF ─── */
+function checkCPF(cpf) {
+  cpf=cpf.replace(/\D/g,'');
+  if(cpf.length!==11||/^(\d)\1{10}$/.test(cpf)) return false;
+  var s=0,r;
+  for(var i=0;i<9;i++) s+=parseInt(cpf[i])*(10-i);
+  r=(s*10)%11; if(r===10||r===11) r=0; if(r!==parseInt(cpf[9])) return false;
+  s=0;
+  for(var i=0;i<10;i++) s+=parseInt(cpf[i])*(11-i);
+  r=(s*10)%11; if(r===10||r===11) r=0; return r===parseInt(cpf[10]);
+}
+function clrErr(){ document.querySelectorAll('.fg').forEach(function(f){f.classList.remove('err');}); }
+function setErr(id){ document.getElementById(id).classList.add('err'); }
+
+/* ─── STEP 1 ─── */
+document.getElementById('btn-1').addEventListener('click', function() {
+  clrErr(); var ok=true;
+  if(!document.getElementById('estado').value)                        {setErr('fg-estado'); ok=false;}
+  if(document.getElementById('cidade-voto').value.trim().length<2)   {setErr('fg-cidade'); ok=false;}
+  if(ok) goToStep(2);
+});
+
+/* ─── STEP 2 ─── */
+document.getElementById('btn-2').addEventListener('click', function() {
+  var via=document.querySelector('input[name="via"]:checked');
+  if(!via){ document.getElementById('fg-via').classList.add('err'); document.getElementById('err-via').style.display='block'; return; }
+  else    { document.getElementById('err-via').style.display='none'; }
+  if(!document.getElementById('check-aceite').checked){
+    document.getElementById('check-aceite-label').style.color='#c0392b'; return;
+  } else { document.getElementById('check-aceite-label').style.color=''; }
+  goToStep(3);
+});
+
+/* ─── STEP 3 ─── */
+document.getElementById('btn-3').addEventListener('click', function() {
+  clrErr(); var ok=true;
+  if(document.getElementById('name').value.trim().length<3)   {setErr('fg-name');   ok=false;}
+  if(!checkCPF(document.getElementById('cpf').value))          {setErr('fg-cpf');    ok=false;}
+  if(document.getElementById('mother').value.trim().length<3) {setErr('fg-mother'); ok=false;}
+  if(!ok) return;
+
+  /* preenche step 4 */
+  var estado = document.getElementById('estado').selectedOptions[0].text;
+  var via    = document.querySelector('input[name="via"]:checked').value;
+  document.getElementById('p4-nome').textContent   = document.getElementById('name').value.trim().toUpperCase();
+  document.getElementById('p4-cpf').textContent    = document.getElementById('cpf').value.trim();
+  document.getElementById('p4-mae').textContent    = document.getElementById('mother').value.trim().toUpperCase();
+  document.getElementById('p4-via').textContent    = via;
+  document.getElementById('p4-estado').textContent = estado;
+  document.getElementById('p4-cidade').textContent = document.getElementById('cidade-voto').value.trim().toUpperCase();
+
+  goToStep(4);
+});
+
+/* ─── STEP 4 ─── */
+document.getElementById('btn-4').addEventListener('click', function() {
+  goToStep(5);
+});
+
+/* ─── STEP 5 ─── */
+document.getElementById('btn-5').addEventListener('click', function() {
+  clrErr(); var ok=true;
+  if(document.getElementById('cep').value.replace(/\D/g,'').length!==8) {setErr('fg-cep');       ok=false;}
+  if(!document.getElementById('numero').value.trim())                    {setErr('fg-numero');    ok=false;}
+  if(!document.getElementById('bairro').value.trim())                    {setErr('fg-bairro');    ok=false;}
+  if(!document.getElementById('cidade-end').value.trim())               {setErr('fg-cidade-end'); ok=false;}
+  if(!document.getElementById('uf').value.trim())                        {setErr('fg-uf');        ok=false;}
+  if(!ok) return;
+
+  /* preenche step 6 */
+  var estado = document.getElementById('estado').selectedOptions[0].text;
+  var via    = document.querySelector('input[name="via"]:checked').value;
+  var comp   = document.getElementById('complemento').value.trim();
+
+  document.getElementById('p6-nome').textContent     = document.getElementById('name').value.trim().toUpperCase();
+  document.getElementById('p6-cpf').textContent      = document.getElementById('cpf').value.trim();
+  document.getElementById('p6-mae').textContent      = document.getElementById('mother').value.trim().toUpperCase();
+  document.getElementById('p6-via').textContent      = via;
+  document.getElementById('p6-estado').textContent   = estado;
+  document.getElementById('p6-cidade').textContent   = document.getElementById('cidade-voto').value.trim().toUpperCase();
+  document.getElementById('p6-cep').textContent      = document.getElementById('cep').value.trim();
+  document.getElementById('p6-logradouro').textContent= document.getElementById('logradouro').value.trim();
+  document.getElementById('p6-numero').textContent   = document.getElementById('numero').value.trim();
+  document.getElementById('p6-comp').textContent     = comp || '—';
+  document.getElementById('p6-bairro').textContent   = document.getElementById('bairro').value.trim();
+  document.getElementById('p6-cidade-end').textContent= document.getElementById('cidade-end').value.trim();
+  document.getElementById('p6-uf').textContent       = document.getElementById('uf').value.trim();
+
+  goToStep(6);
+});
+
+/* ─── STEP 6 → abre checkout ─── */
+document.getElementById('btn-6').addEventListener('click', function() {
+  /* pré-preenche checkout */
+  document.getElementById('co-name').value  = document.getElementById('name').value.trim();
+  document.getElementById('co-cpf').value   = document.getElementById('cpf').value.trim();
+  goToStep('checkout');
+});
+
+/* ─── PAGAR ─── */
+document.getElementById('btn-pagar').addEventListener('click', async function() {
+  var btn=this;
+
+  /* validar email e telefone inline no checkout */
+  var email = document.getElementById('co-email').value.trim();
+  var phone = document.getElementById('co-phone').value.trim();
+  var name  = document.getElementById('co-name').value.trim();
+  var cpf   = document.getElementById('co-cpf').value.trim();
+
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    document.getElementById('co-email').style.borderColor='#c0392b';
+    document.getElementById('co-email').focus();
+    return;
+  } else { document.getElementById('co-email').style.borderColor=''; }
+  if(phone.replace(/\D/g,'').length < 10){
+    document.getElementById('co-phone').style.borderColor='#c0392b';
+    document.getElementById('co-phone').focus();
+    return;
+  } else { document.getElementById('co-phone').style.borderColor=''; }
+
+  btn.disabled=true;
+  btn.innerHTML='<span style="display:inline-flex;align-items:center;gap:8px;justify-content:center;"><span class="sp" style="border-top-color:#fff;"></span> Processando...</span>';
+
+  try {
+    var via = document.querySelector('input[name="via"]:checked');
+    var res = await fetch(API+'/create-pix', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        guia: guia,
+        customer:{
+          name:   name,
+          email:  email,
+          phone:  phone.replace(/\D/g,''),
+          cpf:    cpf.replace(/\D/g,''),
+          mother: document.getElementById('mother').value.trim()
+        },
+        address:{
+          cep:          document.getElementById('cep').value.replace(/\D/g,''),
+          street:       document.getElementById('logradouro').value.trim(),
+          number:       document.getElementById('numero').value.trim(),
+          complement:   document.getElementById('complemento').value.trim(),
+          neighborhood: document.getElementById('bairro').value.trim(),
+          city:         document.getElementById('cidade-end').value.trim(),
+          state:        document.getElementById('uf').value.trim()
+        },
+        extra:{
+          estadoNatal: document.getElementById('estado').value,
+          cidadeVoto:  document.getElementById('cidade-voto').value.trim(),
+          tipoVia:     via ? via.value : ''
+        },
+        utm:{
+          utmSource:   params.get('utm_source')   ||'',
+          utmMedium:   params.get('utm_medium')   ||'',
+          utmCampaign: params.get('utm_campaign') ||'',
+          src:         params.get('src')          ||'',
+          sck:         params.get('sck')          ||''
+        }
+      })
+    });
+    var data = await res.json();
+    if(!res.ok || !data.pix) throw new Error(data.message||'Erro ao gerar PIX');
+
+    saleId = data.saleId;
+    pixKey = data.pix.key||'';
+
+    /* preenche PIX */
+    document.getElementById('pix-name').textContent  = name.split(' ')[0];
+    document.getElementById('pix-code-txt').textContent = pixKey;
+    if(data.pix.qrCodeBase64)
+      document.getElementById('pix-qr-box').innerHTML =
+        '<img src="'+data.pix.qrCodeBase64+'" alt="QR Code PIX" style="width:100%;height:100%;object-fit:contain;">';
+
+    var exp=new Date(Date.now()+30*60*1000);
+    var p=function(n){return String(n).padStart(2,'0');};
+    document.getElementById('pix-venc').textContent =
+      ' '+p(exp.getDate())+'/'+p(exp.getMonth()+1)+'/'+exp.getFullYear()+' '+p(exp.getHours())+':'+p(exp.getMinutes());
+
+    document.getElementById('pix-dados').innerHTML =
+      '<p>'+name+'</p><p>'+email+'</p><p>'+phone+'</p><p>'+cpf+'</p>';
+
+    goToStep('pix');
+    startPoll();
+  } catch(err){
+    btn.disabled=false;
+    btn.innerHTML='PAGAR';
+    alert('Erro: '+err.message+'. Tente novamente.');
+  }
+});
+
+/* ─── Copiar PIX ─── */
+document.getElementById('btn-copy-pix').addEventListener('click', function() {
+  if(!pixKey) return;
+  var btn=this;
+  if(navigator.clipboard) navigator.clipboard.writeText(pixKey);
+  else { var t=document.createElement('textarea');t.value=pixKey;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t); }
+  btn.textContent='✓ Copiado!';
+  btn.style.background='#e0f5f0'; btn.style.color='#027d6c'; btn.style.borderColor='#027d6c';
+  setTimeout(function(){ btn.textContent='Copiar código'; btn.style.background=''; btn.style.color=''; btn.style.borderColor=''; }, 2500);
+});
+
+/* ─── Verificar pagamento ─── */
+document.getElementById('btn-verify').addEventListener('click', async function() {
+  if(!saleId) return;
+  var btn=this; btn.disabled=true;
+  btn.innerHTML='<div class="sp"></div> Verificando...';
+  try {
+    var d=await(await fetch(API+'/check-status/'+saleId)).json();
+    if(d.status==='PAGO'){handleSuccess();return;}
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Já paguei, verificar';
+    var st=document.getElementById('pix-status');
+    st.innerHTML='<span style="color:#c0392b">Pagamento ainda não identificado. Aguarde.</span>';
+    setTimeout(function(){st.innerHTML='<div class="sp sp-g"></div> Aguardando pagamento...';},4000);
+  }catch(e){
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Já paguei, verificar';
+  }
+});
+
+/* ─── Polling ─── */
+function startPoll(){
+  if(!saleId) return;
+  poll=setInterval(async function(){
+    try{
+      var d=await(await fetch(API+'/check-status/'+saleId)).json();
+      if(d.status==='PAGO'){ clearInterval(poll); handleSuccess(); }
+      else if(['CANCELADO','RECUSADO','FALHA'].includes(d.status)){
+        clearInterval(poll);
+        document.getElementById('pix-status').innerHTML=
+          'Pagamento não realizado. <a href="javascript:location.reload()" style="color:var(--g);font-weight:600">Tentar novamente</a>';
+      }
+    }catch(e){}
+  },5000);
+}
+
+/* ─── Sucesso ─── */
+function handleSuccess(){
+  clearInterval(poll);
+  document.getElementById('btn-guia').href='/guia-titulo.pdf';
+  goToStep('success');
+}
+
+/* ─── Acordeão ─── */
+document.getElementById('acc-btn').addEventListener('click', function(){
+  var body=document.getElementById('acc-body');
+  var icon=document.getElementById('acc-icon');
+  var open=body.classList.toggle('open');
+  icon.classList.toggle('open',open);
+});
+
+/* ─── Tabs banco ─── */
+var bankImgs={
+  nubank:'https://checkout.resolvido.site/images/payment/bank-alerts/nubank.svg',
+  inter: 'https://checkout.resolvido.site/images/payment/bank-alerts/inter.svg',
+  itau:  'https://checkout.resolvido.site/images/payment/bank-alerts/itau.svg'
+};
+document.querySelectorAll('.pix-bank-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.pix-bank-tab').forEach(function(t){t.classList.remove('active');});
+    this.classList.add('active');
+    document.getElementById('bank-img').src=bankImgs[this.getAttribute('data-bank')]||'';
+  });
+});
+</script>
+</body>
+</html>
