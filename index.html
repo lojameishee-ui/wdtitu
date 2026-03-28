@@ -1,743 +1,756 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia informativo Título Digital | EdocBR</title>
-    <meta name="description" content="Guia digital (e-book) com passo a passo para tirar ou regularizar seu Título de Eleitor. Não somos governo. Conteúdo informativo.">
-    <meta property="og:title" content="Guia Digital Título | EdocBR">
-    <meta property="og:description" content="Guia informativo em e-book. Não somos governo. Passo a passo completo para tirar ou regularizar seu Título de Eleitor pelos canais oficiais.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://titulofacilita.online/">
-    <meta property="og:locale" content="pt_BR">
-    <link rel="icon" type="image/png" href="https://edocbr.com.br/wp-content/uploads/2024/09/logo-edocbr.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #027d6c;
-            --secondary-color: #10b981;
-            --light-color: #ecfdf5;
-            --dark-color: #064e3b;
-        }
-        
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Título de Eleitor Digital — EdocBr | Serviço de Auxílio Documental</title>
+<meta name="description" content="Guia digital completo para tirar ou regularizar seu Título de Eleitor. Passo a passo pelos canais oficiais. Não somos governo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   TOKENS — mesmos do solicitar.html
+══════════════════════════════════════ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Tahoma, Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 13px;
+  background: #d4dde6;
+  color: #1a2832;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f4f8;
-            color: var(--primary-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            font-size: 16px;
-        }
-        .main-wrapper {
-            flex: 1;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0;
-        }
-        .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 0.8rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-        }
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        .logo {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-        .logo:hover {
-            transform: scale(1.1);
-        }
-        .brand-name {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: white;
-        }
-        .mobile-menu-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transform: translateY(-100%);
-            transition: transform 0.4s ease;
-            z-index: 99;
-            padding: 1rem;
-        }
-        .nav-menu.active {
-            transform: translateY(0);
-        }
-        .nav-menu ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            width: 100%;
-            text-align: center;
-        }
-        .nav-menu ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 500;
-            padding: 0.5rem;
-            display: block;
-        }
-        .main-content {
-            padding: 1rem;
-            width: 100%;
-        }
-        .container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            color: var(--primary-color);
-            position: relative;
-            padding-bottom: 0.8rem;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            border-radius: 2px;
-        }
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-align: center;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(2, 125, 108, 0.3);
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-            width: 100%;
-        }
-        .btn-primary:hover {
-            background-color: var(--dark-color);
-            transform: translateY(-2px);
-        }
-        .btn-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        .steps {
-            margin: 1.5rem 0;
-            padding-left: 1.2rem;
-        }
-        .steps li {
-            margin-bottom: 1.2rem;
-            font-size: 1rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        .steps li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.5rem;
-            width: 8px;
-            height: 8px;
-            background-color: var(--secondary-color);
-            border-radius: 50%;
-        }
-        .highlight-box {
-            background: #f8fafc;
-            border-left: 3px solid var(--secondary-color);
-            padding: 1.2rem;
-            margin: 1.5rem 0;
-            border-radius: 0 6px 6px 0;
-        }
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1.2rem;
-        }
-        .feature-icon {
-            color: var(--secondary-color);
-            font-size: 1.2rem;
-            margin-right: 0.8rem;
-            margin-top: 0.2rem;
-        }
-        .guarantee-badge {
-            background: #f0fdf4;
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            border: 1px dashed var(--secondary-color);
-            text-align: center;
-        }
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .benefit-card {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 1.2rem;
-            border: 1px solid #e2e8f0;
-        }
-        .benefit-card h3 {
-            color: var(--dark-color);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        .benefit-card h3 i {
-            margin-right: 0.5rem;
-            color: var(--primary-color);
-        }
-        .faq-item {
-            margin-bottom: 1.2rem;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 1rem;
-        }
-        .faq-question {
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-        .faq-answer {
-            display: none;
-            padding-top: 0.5rem;
-            color: #4a5568;
-        }
-        .testimonial {
-            background: white;
-            padding: 1.2rem;
-            border-radius: 8px;
-            margin: 1.2rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            margin-top: 0.8rem;
-        }
-        .testimonial-author img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 0.8rem;
-        }
-        .footer {
-            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
-            color: white;
-            padding: 2rem 1rem;
-            text-align: center;
-            width: 100%;
-            margin-top: 2rem;
-        }
-        .footer-column {
-            margin-bottom: 1.5rem;
-        }
-        .footer-column h3 {
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .footer-column ul {
-            list-style: none;
-            padding: 0;
-        }
-        .footer-column ul li {
-            margin-bottom: 0.5rem;
-        }
-        .footer-column ul li a {
-            color: #d1fae5;
-            text-decoration: none;
-        }
-        .copyright {
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.8rem;
-            color: #a7f3d0;
-        }
+/* ── FAIXA TOPO ── */
+.top-bar {
+  background: #1a3c5a;
+  padding: 4px 16px;
+  font-size: 11px;
+  color: #b0c8e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #0f2538;
+}
+.top-bar a { color: #7db8dc; text-decoration: underline; font-size: 11px; }
 
-        /* ============================================
-           AVISO DE ISENÇÃO — LINHA ÚNICA COMPACTA
-           ============================================ */
-        .disclaimer-banner {
-            background: #f0fdf4;
-            border: 1px solid #6ee7b7;
-            border-radius: 6px;
-            padding: 0.45rem 0.9rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .disclaimer-banner p {
-            margin: 0;
-            font-size: 0.78rem;
-            color: #065f46;
-            line-height: 1.4;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        @media (max-width: 480px) {
-            .disclaimer-banner p {
-                white-space: normal;
-            }
-        }
-        /* ============================================ */
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(180deg, #2e6da4 0%, #1a4a7a 40%, #0f3360 100%);
+  border-bottom: 3px solid #0a2040;
+}
+.header-inner {
+  max-width: 960px; margin: 0 auto;
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.header-seal {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, #fff 0%, #e8f0e8 100%);
+  border-radius: 50%; border: 2px solid #ffd700;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+.header-seal img { width: 38px; height: 38px; object-fit: contain; }
+.header-name { font-size: 17px; font-weight: 700; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); letter-spacing: .5px; }
+.header-sub  { font-size: 11px; color: #a8c8e8; font-style: italic; }
+.ssl-badge {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 3px; padding: 4px 8px;
+  color: #90ee90; font-size: 11px; font-weight: 700;
+}
 
-        .sticky-cta {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 0.8rem 1rem;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 90;
-            display: none;
-        }
+/* ── NAV ── */
+.nav-strip { background: linear-gradient(180deg, #2a7fc0 0%, #1e6aaa 100%); border-bottom: 2px solid #0f3360; border-top: 1px solid #4da0d8; }
+.nav-strip-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; }
+.nav-strip a { display: inline-block; padding: 8px 16px; color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.15); transition: background .15s; }
+.nav-strip a:hover, .nav-strip a.active { background: rgba(0,0,0,0.2); }
 
-        @media (min-width: 768px) {
-            .main-wrapper {
-                padding: 0 1rem;
-            }
-            .header {
-                padding: 0.8rem 2rem;
-                border-radius: 0 0 12px 12px;
-            }
-            .mobile-menu-btn {
-                display: none;
-            }
-            .nav-menu {
-                position: static;
-                background: none;
-                transform: none;
-                flex-direction: row;
-                padding: 0;
-                width: auto;
-            }
-            .nav-menu ul {
-                flex-direction: row;
-                gap: 2rem;
-            }
-            .nav-menu ul li a {
-                font-size: 1rem;
-                padding: 0;
-            }
-            .benefits-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .btn-container {
-                flex-direction: row;
-                justify-content: center;
-            }
-            .btn-primary {
-                width: auto;
-                min-width: 250px;
-            }
-            .sticky-cta {
-                display: none !important;
-            }
-        }
-    </style>
+/* ── LAYOUT ── */
+.page-body { flex: 1; max-width: 960px; margin: 0 auto; width: 100%; padding: 14px 8px; display: flex; gap: 14px; align-items: flex-start; }
+.main-col { flex: 1; min-width: 0; }
+.sidebar  { width: 200px; flex-shrink: 0; }
+
+/* ── COMPONENTES BASE ── */
+.inst-box { background: #fff; border: 1px solid #b0c0d0; border-top: 3px solid #1e6aaa; border-radius: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); margin-bottom: 10px; overflow: hidden; }
+.inst-box-title { background: linear-gradient(180deg, #e8f0f8 0%, #d8e8f4 100%); border-bottom: 1px solid #b0c8e0; padding: 8px 12px; font-size: 13px; font-weight: 700; color: #0f3360; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase; letter-spacing: .5px; }
+.inst-box-body { padding: 14px 16px; }
+
+.sw-box { background: #fff; border: 1px solid #b0c0d0; border-top: 2px solid #1e6aaa; border-radius: 2px; margin-bottom: 8px; overflow: hidden; }
+.sw-title { background: linear-gradient(180deg, #e8f0f8 0%, #d8e8f4 100%); border-bottom: 1px solid #b0c8e0; padding: 7px 10px; font-size: 11px; font-weight: 700; color: #0f3360; text-transform: uppercase; letter-spacing: .4px; }
+.sw-body  { padding: 10px; font-size: 11px; color: #405870; line-height: 1.6; }
+.sw-body ul { padding-left: 14px; }
+.sw-body ul li { margin-bottom: 5px; }
+
+.trust-seal { background: linear-gradient(180deg, #f0f8f0 0%, #e0f0e0 100%); border: 2px solid #60a060; border-radius: 3px; padding: 10px; text-align: center; margin-bottom: 8px; }
+.trust-seal .ts-icon { font-size: 24px; margin-bottom: 4px; }
+.trust-seal .ts-text { font-size: 11px; font-weight: 700; color: #0a4a0a; line-height: 1.3; }
+.trust-seal .ts-sub  { font-size: 10px; color: #507050; margin-top: 2px; }
+
+.counter-box { background: #fff8e0; border: 1px solid #d4a820; border-radius: 2px; padding: 9px; text-align: center; margin-bottom: 8px; font-size: 11px; color: #3a2808; }
+.counter-box strong { display: block; font-size: 20px; color: #a84820; }
+
+/* ── HERO BANNER ── */
+.hero-banner {
+  background: linear-gradient(180deg, #e0ecf8 0%, #c8ddf0 100%);
+  border: 1px solid #90b8d8;
+  border-bottom: 2px solid #5080a8;
+  border-radius: 2px;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.hero-seal {
+  width: 72px; height: 72px; flex-shrink: 0;
+  background: linear-gradient(135deg, #fff 0%, #f0f8e8 100%);
+  border-radius: 50%; border: 3px solid #ffd700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+.hero-seal img { width: 58px; height: 58px; object-fit: contain; }
+.hero-text h1 { font-size: 18px; font-weight: 700; color: #0a2848; margin-bottom: 4px; }
+.hero-text p  { font-size: 12px; color: #2a4868; line-height: 1.5; }
+.hero-badges { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.hero-badge {
+  background: #1e6aaa; color: #fff;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 2px;
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.hero-badge.green { background: #2a8a2a; }
+.hero-badge.orange { background: #c07020; }
+
+/* ── SEÇÃO ESCOLHA ── */
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+.choice-card {
+  border: 2px solid #b0c0d0;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: border-color .15s;
+  text-decoration: none;
+  display: block;
+}
+.choice-card:hover { border-color: #1e6aaa; }
+.choice-card-header {
+  padding: 10px 12px;
+  font-size: 13px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; gap: 8px;
+}
+.choice-card-header.blue   { background: linear-gradient(180deg, #2e6da4 0%, #1a4a7a 100%); }
+.choice-card-header.green  { background: linear-gradient(180deg, #2a8a2a 0%, #1a6a1a 100%); }
+.choice-card-body { padding: 10px 12px; background: #f8fbff; font-size: 12px; color: #2a4060; line-height: 1.55; }
+.choice-card-body p { margin-bottom: 6px; }
+.choice-card-body strong { color: #0f3360; }
+.choice-card-footer {
+  padding: 8px 12px;
+  font-size: 12px; font-weight: 700; color: #fff;
+  text-align: center;
+}
+.choice-card-footer.blue  { background: #1e6aaa; }
+.choice-card-footer.green { background: #1a6a1a; }
+
+/* ── BOTÕES ── */
+.btn-blue {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 20px; width: 100%;
+  background: linear-gradient(180deg, #2e7fc0 0%, #1a5a9a 50%, #0f4080 100%);
+  color: #fff; font-size: 13px; font-weight: 700;
+  font-family: Tahoma, Arial, sans-serif;
+  border: 1px solid #0a2848; border-radius: 3px; cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,.15);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  margin-bottom: 8px;
+}
+.btn-blue:hover { filter: brightness(1.1); }
+
+.btn-green-lg {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 20px; width: 100%;
+  background: linear-gradient(180deg, #3aaa3a 0%, #1e8a1e 50%, #166016 100%);
+  color: #fff; font-size: 15px; font-weight: 700;
+  font-family: Tahoma, Arial, sans-serif;
+  border: 1px solid #0a4a0a; border-radius: 3px; cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,.15);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  margin-bottom: 8px;
+}
+.btn-green-lg:hover { filter: brightness(1.08); }
+
+.btn-orange-lg {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 20px; width: 100%;
+  background: linear-gradient(180deg, #ff9900 0%, #e07800 50%, #c06000 100%);
+  color: #fff; font-size: 15px; font-weight: 700;
+  font-family: Tahoma, Arial, sans-serif;
+  border: 1px solid #803800; border-radius: 3px; cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  margin-bottom: 8px;
+}
+.btn-orange-lg:hover { filter: brightness(1.08); }
+
+/* ── DATA TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table td { padding: 6px 10px; border: 1px solid #c8d8e8; }
+.data-table tr:nth-child(even) td { background: #f0f6fc; }
+.data-table tr:nth-child(odd)  td { background: #fff; }
+.data-table .dt-label { font-weight: 700; color: #0f3360; width: 40%; background: #e0ecf8 !important; border-right: 2px solid #a0b8d0; }
+
+/* ── PASSOS ── */
+.step-list { list-style: none; padding: 0; margin: 10px 0; }
+.step-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 10px; margin-bottom: 5px;
+  background: #f0f6fc; border: 1px solid #c0d4e8;
+  border-left: 4px solid #1e6aaa; border-radius: 2px;
+  font-size: 12px; color: #1a3040;
+}
+.step-num {
+  width: 22px; height: 22px; flex-shrink: 0;
+  background: #1e6aaa; color: #fff;
+  border-radius: 50%; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+}
+
+/* ── BENEFÍCIOS ── */
+.benefit-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 10px; margin-bottom: 5px;
+  background: #f8fbff; border: 1px solid #c8d8e8;
+  border-radius: 2px; font-size: 12px; color: #2a4060;
+}
+.benefit-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.benefit-row strong { color: #0f3360; display: block; margin-bottom: 2px; }
+
+/* ── DEPOIMENTOS ── */
+.testimonial {
+  background: #fff; border: 1px solid #c8d8e8;
+  border-left: 4px solid #1e6aaa; border-radius: 2px;
+  padding: 10px 12px; margin-bottom: 8px;
+  font-size: 12px; color: #1a3040; font-style: italic;
+}
+.testimonial-footer { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-style: normal; }
+.testimonial-footer img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #c0d0e0; }
+.testimonial-footer strong { font-size: 11px; color: #0f3360; display: block; }
+.testimonial-footer span  { font-size: 10px; color: #5a7090; }
+.stars { color: #d4a820; font-size: 12px; }
+
+/* ── FAQ ── */
+.faq-item { border: 1px solid #c8d8e8; border-radius: 2px; margin-bottom: 5px; overflow: hidden; }
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 12px; background: linear-gradient(180deg, #f0f6fc 0%, #e4eef8 100%);
+  cursor: pointer; font-size: 12px; font-weight: 700; color: #0f3360;
+}
+.faq-q:hover { background: linear-gradient(180deg, #e4f0fa 0%, #d4e8f4 100%); }
+.faq-icon { font-size: 10px; color: #1e6aaa; transition: transform .25s; }
+.faq-icon.open { transform: rotate(180deg); }
+.faq-a { display: none; padding: 10px 12px; font-size: 12px; color: #2a4060; line-height: 1.6; background: #fff; border-top: 1px solid #d0e0ee; }
+.faq-a.open { display: block; }
+
+/* ── INFO BOXES ── */
+.info-block-blue { background: #e8f4ff; border: 1px solid #6090c0; border-left: 4px solid #1e6aaa; border-radius: 2px; padding: 10px 12px; margin: 10px 0; font-size: 12px; color: #0a3060; }
+.info-block-blue strong { color: #0a2040; display: block; margin-bottom: 4px; }
+.info-block-yellow { background: #fff8e0; border: 1px solid #d4a820; border-left: 4px solid #c8a820; border-radius: 2px; padding: 10px 12px; margin: 10px 0; font-size: 12px; color: #3a2808; }
+.info-block-green { background: #e8f8e8; border: 1px solid #60a060; border-left: 4px solid #2a8a2a; border-radius: 2px; padding: 10px 12px; margin: 10px 0; font-size: 12px; color: #0a3810; }
+
+.section-divider { border: none; border-top: 2px solid #b0c8e0; margin: 14px 0; }
+
+/* ── GARANTIA ── */
+.guarantee-box {
+  background: linear-gradient(180deg, #e8f8e8 0%, #d8f0d8 100%);
+  border: 2px solid #40a040; border-radius: 3px;
+  padding: 14px 16px; text-align: center; margin: 12px 0;
+}
+.guarantee-box .g-icon { font-size: 28px; margin-bottom: 6px; }
+.guarantee-box strong { font-size: 13px; color: #0a4a0a; display: block; margin-bottom: 4px; }
+.guarantee-box p { font-size: 12px; color: #1a4a1a; }
+
+/* ── CTA FINAL ── */
+.cta-box {
+  background: linear-gradient(180deg, #d8e8f8 0%, #c0d4ec 100%);
+  border: 1px solid #90b8d8; border-bottom: 2px solid #4878a8;
+  border-radius: 2px; padding: 16px; margin: 12px 0; text-align: center;
+}
+.cta-box h3 { font-size: 14px; font-weight: 700; color: #0a2848; margin-bottom: 6px; }
+.cta-box p  { font-size: 12px; color: #1a3a58; margin-bottom: 12px; }
+.cta-buttons { display: flex; gap: 8px; }
+.cta-buttons a { flex: 1; }
+
+/* ── FOOTER ── */
+.footer { background: linear-gradient(180deg, #1a3c5a 0%, #0f2538 100%); border-top: 3px solid #0a1828; padding: 16px 16px 10px; margin-top: 8px; }
+.footer-inner { max-width: 960px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 12px; }
+.footer-col h4 { color: #7db8dc; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 5px; }
+.footer-col p, .footer-col a { color: #8aa8c0; font-size: 11px; line-height: 1.7; text-decoration: none; display: block; }
+.footer-col a:hover { color: #b0d0e8; text-decoration: underline; }
+.footer-copy { font-size: 11px; color: #5a88a8; border-top: 1px solid rgba(255,255,255,.08); padding-top: 8px; }
+.footer-copy a { color: #7db8dc; }
+
+/* ── MOBILE HERO — above the fold ── */
+.mobile-hero {
+  background: linear-gradient(180deg, #e0ecf8 0%, #c8ddf0 100%);
+  border: 1px solid #90b8d8;
+  border-bottom: 2px solid #4878a8;
+  border-radius: 2px;
+  padding: 14px 12px 10px;
+  margin-bottom: 10px;
+}
+.mobile-hero-title {
+  font-size: 13px; font-weight: 700; color: #0a2848;
+  text-align: center; margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.mobile-btn-primary,
+.mobile-btn-secondary {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 13px 14px;
+  border-radius: 3px; text-decoration: none;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+  transition: filter .15s;
+}
+.mobile-btn-primary {
+  background: linear-gradient(180deg, #3aaa3a 0%, #1e8a1e 50%, #166016 100%);
+  border-color: #0a4a0a;
+  box-shadow: 0 3px 7px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.mobile-btn-secondary {
+  background: linear-gradient(180deg, #2e7fc0 0%, #1a5a9a 50%, #0f4080 100%);
+  border-color: #0a2848;
+  box-shadow: 0 3px 7px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.mobile-btn-primary:hover,
+.mobile-btn-secondary:hover { filter: brightness(1.08); }
+.mobile-btn-icon  { font-size: 22px; flex-shrink: 0; }
+.mobile-btn-text  { flex: 1; }
+.mobile-btn-text strong { display: block; font-size: 13px; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.4); margin-bottom: 2px; }
+.mobile-btn-text small  { display: block; font-size: 11px; color: rgba(255,255,255,.8); font-style: italic; }
+.mobile-btn-arrow { font-size: 22px; color: rgba(255,255,255,.7); font-weight: 700; }
+.mobile-badges {
+  display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 6px;
+}
+.mobile-badges span {
+  font-size: 10px; font-weight: 700; color: #0a2848;
+  background: rgba(255,255,255,.6); border: 1px solid #90b8d8;
+  padding: 2px 7px; border-radius: 2px;
+}
+@media (min-width: 721px) {
+  .mobile-hero { display: none; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .page-body    { flex-direction: column; padding: 8px; }
+  .sidebar      { width: 100%; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sidebar > *  { flex: 1; min-width: 140px; }
+  .choice-grid  { grid-template-columns: 1fr; }
+  .cta-buttons  { flex-direction: column; }
+  .footer-grid  { grid-template-columns: 1fr; gap: 12px; }
+  .header-inner { flex-direction: column; gap: 8px; text-align: center; }
+  .nav-strip-inner { flex-wrap: wrap; }
+  .hero-banner  { flex-direction: column; text-align: center; gap: 10px; }
+  .hero-badges  { justify-content: center; }
+}
+</style>
 </head>
 <body>
-    <div class="main-wrapper">
-        <header class="header">
-            <div class="logo-container">
-                <img src="https://cdn-icons-png.flaticon.com/512/197/197386.png" alt="EdocBr Logo" class="logo">
-                <span class="brand-name">Título EdocBR</span>
-            </div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav class="nav-menu" id="navMenu">
-                <ul>
-                    <li><a href="#home">Início</a></li>
-                    <li><a href="#beneficios">Benefícios</a></li>
-                    <li><a href="#como-funciona">Como Funciona</a></li>
-                    <li><a href="#duvidas">Dúvidas</a></li>
-                </ul>
-            </nav>
-        </header>
 
-        <main class="main-content" id="home">
-            <div class="container">
+<!-- FAIXA TOPO -->
+<div class="top-bar">
+  <span>🏛️ Serviço de Auxílio Documental — Acesso Seguro SSL</span>
+  <span>🔒 Seus dados estão protegidos</span>
+</div>
 
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-brand">
+      <div class="header-seal">
+        <img src="https://cdn-icons-png.flaticon.com/512/197/197386.png" alt="Brasil">
+      </div>
+      <div>
+        <div class="header-name">Título EdocBr</div>
+        <div class="header-sub">Sistema de Auxílio para Título de Eleitor</div>
+      </div>
+    </a>
+    <div class="ssl-badge">
+      <svg viewBox="0 0 14 18" fill="none" width="12" height="12">
+        <rect x="1" y="7" width="12" height="10" rx="1.5" fill="#90ee90"/>
+        <path d="M3.5 7V5C3.5 2.79 5.29 1 7.5 1C9.71 1 11.5 2.79 11.5 5V7" stroke="#90ee90" stroke-width="1.5"/>
+        <circle cx="7.5" cy="12" r="1.5" fill="#0f2538"/>
+      </svg>
+      Conexão Segura HTTPS
+    </div>
+  </div>
+</header>
 
-                <!-- Hero Section -->
-                <section class="text-center mb-12">
-                    <h1 class="section-title">
-                        Título EdocBR
-                    </h1>
-                    <p class="text-center mb-4" style="font-size: 1.15rem;">
-                        Receba seu Título Primeira ou Segunda Via com auxílio do EdocBr de forma prática e segura.
-                    </p>
-                    
-                    <p class="text-lg font-semibold text-center mb-4">Selecione o tipo que precisa:</p>
-                    
-                    <div class="btn-container">
-                        <a href="tirar.html" class="btn-primary">
-                            <i class="fas fa-id-card mr-2"></i> Tirar Título Agora
-                        </a>
-                        <a href="regularizar.html" class="btn-primary">
-                            <i class="fas fa-sync-alt mr-2"></i> Regularizar Título
-                        </a>
-                    </div>
-                </section>
+<!-- NAV -->
+<div class="nav-strip">
+  <div class="nav-strip-inner">
+    <a href="index.html" class="active">🏠 Início</a>
+    <a href="tirar.html">📋 Tirar Título</a>
+    <a href="regularizar.html">🔄 Regularizar</a>
+    <a href="#como-funciona">ℹ️ Como Funciona</a>
+    <a href="#duvidas">❓ Dúvidas</a>
+    <a href="#contato">📞 Contato</a>
+  </div>
+</div>
 
-                <!-- Seção Diferença dos Botões -->
-                <section class="mb-12">
-                    <h2 class="section-title">Qual documento você precisa?</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="benefit-card">
-                            <h3 class="text-xl font-bold mb-2">Tirar Título Agora</h3>
-                            <p class="text-sm text-gray-600 mb-2">Documento emitido para quem nunca teve título de eleitor ou precisa da primeira via para regularização civil.</p>
-                            <p class="text-sm"><strong>Indicado para:</strong> Pessoas que precisam emitir o documento pela primeira vez para regularização, concursos públicos, empregos ou outros fins oficiais.</p>
-                        </div>
-                        <div class="benefit-card">
-                            <h3 class="text-xl font-bold mb-2">Regularizar Título</h3>
-                            <p class="text-sm text-gray-600 mb-2">Documento emitido para quem já possui título mas está com pendências, multas ou precisa da segunda via.</p>
-                            <p class="text-sm"><strong>Indicado para:</strong> Pessoas que já possuem o documento, mas precisam comprovar a regularidade para concursos, empregos ou evitar o bloqueio do CPF.</p>
-                        </div>
-                    </div>
-                </section>
+<!-- CORPO -->
+<div class="page-body">
 
-                <!-- Seção Depoimentos -->
-                <section id="depoimentos">
-                    <h2 class="section-title">Depoimentos de Quem Usou o EdocBr</h2>
-                    
-                    <div class="testimonial">
-                        <p>"Facilitou muito! Consegui minha segunda via do Título sem dor de cabeça, tudo rápido e digital"</p>
-                        <div class="testimonial-author">
-                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="João Silva">
-                            <div>
-                                <h4>João Silva, 32 anos</h4>
-                                <p>Rio de Janeiro/RJ</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial">
-                        <p>"Precisava do Título para uma pendência pessoal e o EdocBr me ajudou a resolver tudo muito mais fácil. Excelente guia!"</p>
-                        <div class="testimonial-author">
-                            <img src="https://media.licdn.com/dms/image/v2/C4E03AQGCn_E4boGWXQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1600729289662?e=2147483647&v=beta&t=uIvuna-uk09uLKL3kVn1ZWaKVdinKuSew0GoPriIv3s" alt="Matheus Oliveira">
-                            <div>
-                                <h4>Matheus Oliveira, 19 anos</h4>
-                                <p>Belo Horizonte/MG</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial">
-                        <p>"O processo com o EdocBr foi simples e prático. Consegui minha regularização sem complicações."</p>
-                        <div class="testimonial-author">
-                            <img src="https://p16-common-sign.tiktokcdn-us.com/tos-maliva-avt-0068/7e2e1371cfbf83e74c82220a11b83800~tplv-tiktokx-cropcenter:720:720.jpeg?dr=9640&refresh_token=09169c01&x-expires=1769184000&x-signature=NjBhAaA%2FAZBQcvni%2Fvv5cwFblcs%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=useast5" alt="Carlos Souza">
-                            <div>
-                                <h4>Carlos Souza, 38 anos</h4>
-                                <p>São Paulo/SP</p>
-                            </div>
-                        </div>
-                    </div>
+  <!-- COLUNA PRINCIPAL -->
+  <div class="main-col">
 
-                    <div class="btn-container text-center">
-                        <a href="tirar.html" class="btn-primary">
-                            <i class="fas fa-play-circle mr-2"></i> Tirar Título Agora
-                        </a>
-                        <a href="regularizar.html" class="btn-primary">
-                            <i class="fas fa-play-circle mr-2"></i> Regularizar Título
-                        </a>
-                    </div>
-                </section>
-
-                <!-- Seção Como Funciona -->
-                <section id="como-funciona">
-                    <h2 class="section-title">Como Funciona o Guia EdocBr</h2>
-                    <ol class="steps">
-                        <li><strong>Verifique sua situação</strong> - Identifique o que você precisa: primeira via ou regularização.</li>
-                        <li><strong>Adquira o guia</strong> - Receba orientações detalhadas e a lista de documentos necessários.</li>
-                        <li><strong>Siga o passo a passo</strong> - O EdocBr guia você por cada etapa de forma clara e segura.</li>
-                        <li><strong>Acesse pelos canais oficiais</strong> - Obtenha seu Título de Eleitor diretamente pelos canais oficiais do governo.</li>
-                    </ol>
-                    
-                    <div class="highlight-box">
-                        <h3 class="font-bold text-lg mb-2">💡 O que você recebe com o EdocBr:</h3>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Documentação Completa</h4>
-                                <p>Lista detalhada de documentos necessários para a solicitação.</p>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-map-marked-alt"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Canais Oficiais</h4>
-                                <p>Informações sobre como acessar os canais oficiais para a emissão do documento.</p>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-question-circle"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Suporte Especializado</h4>
-                                <p>Acesso à nossa equipe para esclarecer dúvidas durante todo o processo.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="guarantee-badge">
-                        <i class="fas fa-shield-alt"></i>
-                        <h3 class="font-bold mt-2">Garantia de Satisfação</h3>
-                        <p>Se não conseguir emitir seu documento com o EdocBr, devolvemos seu investimento.</p>
-                    </div>
-                    
-                    <div class="btn-container text-center">
-                        <a href="tirar.html" class="btn-primary">
-                            <i class="fas fa-check-circle mr-2"></i> Tirar Título Agora
-                        </a>
-                        <a href="regularizar.html" class="btn-primary">
-                            <i class="fas fa-check-circle mr-2"></i> Regularizar Título
-                        </a>
-                    </div>
-                </section>
-
-                <!-- Seção Benefícios -->
-                <section id="beneficios">
-                    <h2 class="section-title">Benefícios do nosso guia</h2>
-                    <div class="benefits-grid">
-                        <div class="benefit-card">
-                            <h3><i class="fas fa-bolt"></i> Sem Filas ou Burocracia</h3>
-                            <p>Esqueça a confusão dos sistemas oficiais. Nós facilitamos e organizamos todo o processo para você.</p>
-                        </div>
-                        <div class="benefit-card">
-                            <h3><i class="fas fa-route"></i> Caminho Especializado</h3>
-                            <p>Analisamos sua situação específica e entregamos o caminho mais rápido para a regularização.</p>
-                        </div>
-                        <div class="benefit-card">
-                            <h3><i class="fas fa-shield-check"></i> Garantia de Direitos</h3>
-                            <p>Mantenha seu CPF ativo, evite multas e garanta sua participação em concursos e emissão de documentos.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Seção Dúvidas -->
-                <section id="duvidas">
-                    <h2 class="section-title">Dúvidas Frequentes</h2>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Por que pagar se é de graça no governo?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Você paga pela conveniência, guia prático, facilitado e pela garantia de que não cometerá erros que atrasem sua regularização. É economia de tempo e certeza do que estará fazendo.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Quanto tempo demora?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Nossa análise é imediata. O prazo final depende do processamento do órgão, mas garantimos o caminho mais rápido.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Meu CPF está bloqueado por causa do título?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Sim, a irregularidade eleitoral pode levar à suspensão do CPF. Nós entregamos o caminho para resolver isso.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Quanto custa o guia do EdocBr?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>O guia custa R$ 37,80, incluindo acesso à documentação completa e suporte especializado para a solicitação.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Seção Esclarecimento Importante -->
-                <section id="esclarecimento">
-                    <h2 class="section-title">Esclarecimento Importante</h2>
-                    <div class="highlight-box">
-                        <p>A EdocBr não é uma entidade governamental e não realiza a emissão direta de documentos. Somos uma empresa especializada na venda de guias digitais no formato de e-books, que fornecem um passo a passo legal, claro e detalhado para que você possa solicitar seus documentos de forma prática e segura por conta própria, utilizando os canais oficiais.</p>
-                    </div>
-                    <div class="btn-container text-center">
-                        <a href="tirar.html" class="btn-primary">
-                            <i class="fas fa-check-circle mr-2"></i> Tirar Título Agora
-                        </a>
-                        <a href="regularizar.html" class="btn-primary">
-                            <i class="fas fa-check-circle mr-2"></i> Regularizar Título
-                        </a>
-                    </div>
-                </section>
-
-            </div>
-        </main>
+    <!-- ── BOTÕES ACIMA DA DOBRA — visível sem scroll no mobile ── -->
+    <div class="mobile-hero">
+      <div class="mobile-hero-title">O que você precisa fazer?</div>
+      <a href="tirar.html" class="mobile-btn-primary">
+        <span class="mobile-btn-icon">🪪</span>
+        <span class="mobile-btn-text">
+          <strong>Tirar Título — 1ª Via</strong>
+          <small>Nunca tirei ou preciso da 1ª via</small>
+        </span>
+        <span class="mobile-btn-arrow">›</span>
+      </a>
+      <a href="regularizar.html" class="mobile-btn-secondary">
+        <span class="mobile-btn-icon">🔄</span>
+        <span class="mobile-btn-text">
+          <strong>Regularizar Título — 2ª Via</strong>
+          <small>Já tenho mas preciso regularizar</small>
+        </span>
+        <span class="mobile-btn-arrow">›</span>
+      </a>
+      <div class="mobile-badges">
+        <span>🔒 100% Seguro</span>
+        <span>⚡ Entrega Imediata</span>
+        <span>✅ +14.000 atendidos</span>
+      </div>
     </div>
 
-    <div class="sticky-cta" id="stickyCta">
-        <a href="tirar.html" class="btn-primary">
-            <i class="fas fa-id-card mr-2"></i> Título Agora
-        </a>
+    <!-- Breadcrumb -->
+    <div style="background:#e8eef5;border:1px solid #b8c8d8;border-bottom:2px solid #9ab0c8;padding:6px 12px;font-size:11px;color:#4a6880;margin-bottom:10px;border-radius:2px;">
+      <strong>Início</strong> &rsaquo; Serviços de Auxílio Documental
     </div>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>EdocBr</h3>
-                <p>Facilitando a regularização do seu Título de Eleitor</p>
-            </div>
-            <div class="footer-column">
-                <h3>Links Úteis</h3>
-                <ul>
-                    <li><a href="#home">Início</a></li>
-                    <li><a href="#beneficios">Benefícios</a></li>
-                    <li><a href="#depoimentos">Depoimentos</a></li>
-                    <li><a href="#como-funciona">Como Funciona</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Legal</h3>
-                <ul>
-                    <li><a href="/termos.html">Termos de Uso</a></li>
-                    <li><a href="/privacidade.html">Política de Privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>© 2026 EdocBr. Todos os direitos reservados. CNPJ: 10.158.686/0001-05</p>
-            <p class="mt-2 text-xs opacity-75">Não somos um site governamental. Somos uma empresa privada de conteúdo educativo digital.</p>
-        </div>
-    </footer>
+    <!-- ── ESCOLHA O SERVIÇO ── -->
+    <div class="inst-box">
+      <div class="inst-box-title">
+        📋 Selecione o serviço que você precisa
+      </div>
+      <div class="inst-box-body">
 
-    <script>
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-        
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                const icon = question.querySelector('i');
-                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-                icon.classList.toggle('fa-chevron-down');
-                icon.classList.toggle('fa-chevron-up');
-            });
-        });
-        
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if(target) {
-                    window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-                    if(navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
-                }
-            });
-        });
+        <p style="font-size:12px;color:#405870;margin-bottom:12px;">Identifique abaixo qual é a sua situação e clique no serviço correspondente para iniciar o processo:</p>
 
-        const stickyCta = document.getElementById('stickyCta');
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth < 768) {
-                const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-                stickyCta.style.display = scrollPercent > 30 ? 'block' : 'none';
-            }
-        });
-        
-        if(document.querySelector('.faq-answer')) {
-            document.querySelector('.faq-answer').style.display = 'block';
-            document.querySelector('.faq-question i').classList.replace('fa-chevron-down', 'fa-chevron-up');
-        }
-    </script>
-</body>
-</html>
+        <div class="choice-grid">
+          <!-- Card Tirar Título -->
+          <a href="tirar.html" class="choice-card">
+            <div class="choice-card-header blue">
+              🪪 Tirar Título — 1ª Via
+            </div>
+            <div class="choice-card-body">
+              <p><strong>Para quem nunca tirou Título</strong> ou precisa emitir a Primeira Via do documento.</p>
+              <p>Indicado para: registro em concursos públicos, abertura de conta, comprovação de cidadania e outros fins oficiais.</p>
+            </div>
+            <div class="choice-card-footer blue">→ Iniciar processo agora</div>
+          </a>
+
+          <!-- Card Regularizar -->
+          <a href="regularizar.html" class="choice-card">
+            <div class="choice-card-header green">
+              🔄 Regularizar — 2ª Via
+            </div>
+            <div class="choice-card-body">
+              <p><strong>Para quem já possui Título</strong> mas está com pendências, multas ou precisa da Segunda Via.</p>
+              <p>Indicado para: regularização de CPF, participação em concursos ou evitar restrições por débitos eleitorais.</p>
+            </div>
+            <div class="choice-card-footer green">→ Regularizar agora</div>
+          </a>
+        </div>
+
+        <div class="info-block-yellow" style="margin-top:10px;">
+          <strong>⚠ Não sabe qual escolher?</strong>
+          Se você nunca teve Título de Eleitor → escolha <strong>"Tirar Título"</strong>. Se já teve e está com problemas → escolha <strong>"Regularizar"</strong>.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── COMO FUNCIONA ── -->
+    <div class="inst-box" id="como-funciona">
+      <div class="inst-box-title">ℹ️ Como funciona o serviço EdocBr</div>
+      <div class="inst-box-body">
+        <ul class="step-list">
+          <li><div class="step-num">1</div><div><strong>Identifique sua situação</strong> — Escolha entre Tirar Título (1ª via) ou Regularizar (2ª via / pendências).</div></li>
+          <li><div class="step-num">2</div><div><strong>Preencha seus dados</strong> — Estado natal, cidade, dados pessoais e endereço. Processo 100% online.</div></li>
+          <li><div class="step-num">3</div><div><strong>Confirme e pague via PIX</strong> — Pagamento seguro com aprovação imediata. Valor: R$ 36,84.</div></li>
+          <li><div class="step-num">4</div><div><strong>Receba o guia digital</strong> — Acesse seu e-Doc imediatamente após o pagamento e siga o passo a passo.</div></li>
+          <li><div class="step-num">5</div><div><strong>Acesse pelos canais oficiais</strong> — Utilize o guia para emitir seu Título pelos canais do governo federal.</div></li>
+        </ul>
+
+        <div class="inst-box" style="margin-top:10px;margin-bottom:0;">
+          <div class="inst-box-title" style="font-size:12px;">📦 O que você recebe</div>
+          <div class="inst-box-body" style="padding:10px 14px;">
+            <div class="benefit-row"><div class="benefit-icon">📄</div><div><strong>Documentação Completa</strong>Lista detalhada de todos os documentos necessários para a solicitação junto ao TSE.</div></div>
+            <div class="benefit-row"><div class="benefit-icon">🗺️</div><div><strong>Canais Oficiais Detalhados</strong>Informações sobre como acessar o sistema do TSE, cartórios eleitorais e portal gov.br.</div></div>
+            <div class="benefit-row"><div class="benefit-icon">💬</div><div><strong>Suporte por E-mail</strong>Nossa equipe responde dúvidas durante todo o processo de regularização.</div></div>
+          </div>
+        </div>
+
+        <div class="guarantee-box">
+          <div class="g-icon">🛡️</div>
+          <strong>Garantia de Satisfação</strong>
+          <p>Se não conseguir emitir seu documento utilizando nosso guia, devolvemos 100% do seu investimento.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── DEPOIMENTOS ── -->
+    <div class="inst-box" id="depoimentos">
+      <div class="inst-box-title">💬 Depoimentos de quem usou o EdocBr</div>
+      <div class="inst-box-body">
+
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:5px;">"Facilitou muito! Consegui minha segunda via do Título sem dor de cabeça, tudo rápido e digital."</p>
+          <div class="testimonial-footer">
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="João Silva">
+            <div>
+              <strong>João Silva, 32 anos</strong>
+              <span>Rio de Janeiro / RJ</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:5px;">"Precisava do Título para uma pendência pessoal e o EdocBr me ajudou a resolver tudo muito mais fácil. Excelente guia!"</p>
+          <div class="testimonial-footer">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Matheus Oliveira">
+            <div>
+              <strong>Matheus Oliveira, 19 anos</strong>
+              <span>Belo Horizonte / MG</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:5px;">"O processo com o EdocBr foi simples e prático. Consegui minha regularização sem complicações."</p>
+          <div class="testimonial-footer">
+            <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Carlos Souza">
+            <div>
+              <strong>Carlos Souza, 38 anos</strong>
+              <span>São Paulo / SP</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-box" style="margin-top:12px;">
+          <h3>Pronto para resolver sua situação eleitoral?</h3>
+          <p>Mais de 14.000 pessoas já utilizaram o EdocBr para regularizar seus documentos eleitorais.</p>
+          <div class="cta-buttons">
+            <a href="tirar.html" class="btn-green-lg">🪪 Tirar Título Agora</a>
+            <a href="regularizar.html" class="btn-blue">🔄 Regularizar Título</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── DÚVIDAS ── -->
+    <div class="inst-box" id="duvidas">
+      <div class="inst-box-title">❓ Perguntas Frequentes</div>
+      <div class="inst-box-body">
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Por que pagar se o Título é gratuito no governo?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-a">
+            Você paga pelo guia digital, conveniência e acompanhamento especializado. O EdocBr organiza toda a informação que está dispersa em dezenas de páginas do governo, entregando um passo a passo claro e direto que evita erros e retrabalho. É economia de tempo e segurança de que você fará o processo corretamente.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Quanto tempo demora para receber o guia?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-a">
+            O guia digital é entregue imediatamente após a confirmação do pagamento via PIX. Você acessa o material na hora, sem espera.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Meu CPF está bloqueado por causa do título irregular?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-a">
+            Sim, irregularidades eleitorais podem levar à suspensão do CPF junto à Receita Federal. Nosso guia de regularização explica exatamente o passo a passo para resolver essa situação pelos canais oficiais.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Qual o custo do serviço EdocBr?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-a">
+            O guia digital custa <strong>R$ 36,84</strong> e inclui: acesso ao e-Doc completo, lista de documentos necessários, canais oficiais detalhados e suporte por e-mail.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>O EdocBr é um órgão do governo?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-a">
+            Não. O EdocBr é uma empresa privada especializada em guias digitais informativos. Não realizamos a emissão direta de documentos — fornecemos orientações detalhadas para que você possa obtê-los pelos canais oficiais do governo (TSE, gov.br e cartórios eleitorais).
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── ESCLARECIMENTO LEGAL ── -->
+    <div class="inst-box">
+      <div class="inst-box-title">⚖️ Esclarecimento Importante — Natureza do Serviço</div>
+      <div class="inst-box-body">
+        <div class="info-block-blue">
+          <strong>Empresa privada de conteúdo educativo digital</strong>
+          A EdocBr <strong>não é um órgão governamental</strong> e não realiza a emissão direta de documentos. Somos especializados na venda de guias digitais (e-books) com passo a passo legal, claro e detalhado para que você possa solicitar seus documentos de forma prática e segura pelos canais oficiais do governo.
+        </div>
+        <div class="cta-box">
+          <h3>Pronto para começar?</h3>
+          <p>Escolha seu serviço e resolva sua situação eleitoral hoje mesmo.</p>
+          <div class="cta-buttons">
+            <a href="tirar.html" class="btn-green-lg">🪪 Tirar Título — 1ª Via</a>
+            <a href="regularizar.html" class="btn-orange-lg">🔄 Regularizar Título</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.main-col -->
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="trust-seal">
+      <div class="ts-icon">🔒</div>
+      <div class="ts-text">Site 100% Seguro</div>
+      <div class="ts-sub">Certificado SSL Ativo</div>
+    </div>
+
+    <div class="counter-box">
+      <strong>14.832</strong>
+      solicitações realizadas este mês
+    </div>
+
+    <div class="sw-box">
+      <div class="sw-title">🚀 Acesso Rápido</div>
+      <div class="sw-body">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <a href="tirar.html" style="display:block;padding:8px 10px;background:linear-gradient(180deg,#2e7fc0 0%,#1a5a9a 100%);color:#fff;text-decoration:none;border-radius:2px;font-size:11px;font-weight:700;text-align:center;border:1px solid #0a2848;">🪪 Tirar Título (1ª Via)</a>
+          <a href="regularizar.html" style="display:block;padding:8px 10px;background:linear-gradient(180deg,#2a8a2a 0%,#1a6a1a 100%);color:#fff;text-decoration:none;border-radius:2px;font-size:11px;font-weight:700;text-align:center;border:1px solid #0a4a0a;">🔄 Regularizar (2ª Via)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-box">
+      <div class="sw-title">✅ Por que EdocBr?</div>
+      <div class="sw-body">
+        <ul>
+          <li>Processo 100% online</li>
+          <li>Guia passo a passo</li>
+          <li>Entrega imediata digital</li>
+          <li>Suporte especializado</li>
+          <li>Garantia de devolução</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sw-box">
+      <div class="sw-title">⚠ Documentos Necessários</div>
+      <div class="sw-body">
+        <ul>
+          <li>RG ou CNH</li>
+          <li>Comprovante de endereço</li>
+          <li>CPF</li>
+          <li>Certidão de nasc./casamento</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sw-box">
+      <div class="sw-title">💰 Valor do Serviço</div>
+      <div class="sw-body" style="text-align:center;">
+        <div style="font-size:22px;font-weight:700;color:#1a6a1a;margin:4px 0;">R$ 36,84</div>
+        <div style="font-size:10px;color:#507090;">Pagamento via PIX</div>
+        <div style="font-size:10px;color:#507090;">Aprovação imediata</div>
+      </div>
+    </div>
+
+    <div class="sw-box" id="contato">
+      <div class="sw-title">📞 Atendimento</div>
+      <div class="sw-body">
+        Seg a Sex — 9h às 18h<br><br>
+        <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="40232f2e3421342f0025242f2322326e232f2d6e2232">[email&#160;protected]</a></strong>
+      </div>
+    </div>
+
+  </div><!-- /.sidebar -->
+
+</div><!-- /.page-body -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>EdocBr — Auxílio Documental</h4>
+        <p>Empresa privada especializada em guias digitais informativos para emissão de documentos pelos canais oficiais do governo federal.</p>
+        <p style="margin-top:6px;">CNPJ: 10.158.686/0001-05</p>
+      </div>
+      <div class="footer-col">
+        <h4>Serviços</h4>
+        <a href="tirar.html">Tirar Título — 1ª Via</a>
+        <a href="regularizar.html">Regularizar Título</a>
+        <a href="#como-funciona">Como Funciona</a>
+        <a href="#duvidas">Dúvidas Frequentes</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="/termos.html">Termos de Uso</a>
+        <a href="/privacidade.html">Política de Privacidade</a>
+        <a href="#contato">Contato</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      © 2025 EdocBr. Todos os direitos reservados. — <strong style="color:#7db8dc;">Não somos um site governamental.</strong> Somos uma empresa privada de conteúdo educativo digital. Os documentos são emitidos pelos órgãos oficiais do governo após seguir as orientações do nosso guia.
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function toggleFaq(el) {
+  var answer = el.nextElementSibling;
+  var icon   = el.querySelector('.faq-icon');
+  var
